@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:layout_gravity="center"
+    android:background="@color/bgapp"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_weight="1"
+        android:background="@color/bgapp"
+        android:indeterminateTint="@color/white"
+        android:max="17"
+        android:min="10"
+        android:theme="@style/SeekBarColor"
+        android:thumbTint="@color/white" />
+
+    <ImageView
+        android:id="@+id/btns"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:padding="5dp"
+        android:src="@drawable/death_card_rip_post_close" />
+</LinearLayout>

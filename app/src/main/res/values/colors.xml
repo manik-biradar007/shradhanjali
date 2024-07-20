@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorAccent">#da4a3f</color>
+    <color name="colorPrimary">#000000</color>
+
+    <color name="colorPrimaryDark">#363636</color>
+    <color name="appcolor">#002a6a</color>
+    <color name="appcolordark">#002a6a</color>
+    <color name="bgapp">#002a6a</color>
+    <color name="black">#ff000000</color>
+    <color name="btn_background">#58ada4</color>
+    <color name="button_textcolor">#fdfdfd</color>
+    <color name="color1">#fae1df</color>
+    <color name="color10">#f5eddc</color>
+    <color name="color11">#f1dcc3</color>
+    <color name="color12">#f1efdc</color>
+    <color name="color13">#e4cab5</color>
+    <color name="color14">#fce2db</color>
+    <color name="color15">#f2d7d9</color>
+    <color name="color16">#d3cedf</color>
+    <color name="color17">#f2d7d9</color>
+    <color name="color18">#dae5d0</color>
+    <color name="color19">#e9d5da</color>
+    <color name="color1s">#f8d0c5</color>
+    <color name="color2">#fad5e2</color>
+    <color name="color20">#e5e8d0</color>
+    <color name="color21">#00ff5722</color>
+    <color name="color2s">#dab6c3</color>
+    <color name="color3">#fadeff</color>
+    <color name="color3s">#cfb3d5</color>
+    <color name="color4">#e1e6fd</color>
+    <color name="color5">#e2effa</color>
+    <color name="color6">#e7fbfa</color>
+    <color name="color7">#ebfbeb</color>
+    <color name="color8">#faf4e4</color>
+    <color name="color9">#f8e1d9</color>
+
+    <color name="colorbg">#ebf0f8</color>
+    <color name="dull">#aa4d4d4d</color>
+    <color name="gray">#666666</color>
+    <color name="hinttextcolor">#959595</color>
+    <color name="light">#d4e3ff</color>
+    <color name="teal_200">#ff03dac5</color>
+    <color name="teal_700">#ff018786</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffffff</color>
+</resources>
