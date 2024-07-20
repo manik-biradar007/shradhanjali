@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/mtop"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/bgapp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:weightSum="1.6">
+
+        <ImageView
+            android:id="@+id/mclose"
+            android:layout_width="2dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:src="@drawable/death_card_rip_post_baseline_keyboard_arrow_left_24" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Family Name and Number"
+            android:textColor="@color/button_textcolor"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/mrl_saveImagesss"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mtop">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="Form  3"
+                    android:textColor="@color/bgapp"
+                    android:textSize="19dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Note   : "
+                            android:textColor="#d82f23"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Name and number can be entered up to 1 2 3 4 5. At least 1 and maximum 5 numbers can be entered."
+                            android:textColor="#168e1b"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/name1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="1...................Name..................."
+                            android:maxLength="100"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:id="@+id/number1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="1...................Number..................."
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/name2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="2...................Name..................."
+                            android:maxLength="100"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:id="@+id/number2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="2...................Number..................."
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/name3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="3...................Name..................."
+                            android:maxLength="100"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:id="@+id/number3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="3...................Number..................."
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/name4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="4...................Name..................."
+                            android:maxLength="100"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:id="@+id/number4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="4...................Number..................."
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/name5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="5...................Name..................."
+                            android:maxLength="100"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:id="@+id/number5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="5...................Number..................."
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/mset_btn"
+                        android:layout_width="120dp"
+                        android:layout_height="46dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/ok_btn"
+                        android:gravity="center" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</RelativeLayout>

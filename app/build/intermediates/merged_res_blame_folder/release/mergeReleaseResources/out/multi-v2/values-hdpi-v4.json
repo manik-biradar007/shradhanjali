@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.ereader.ripcardmaker.app-mergeReleaseResources-45:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\manik\\.gradle\\caches\\8.10.2\\transforms\\993064b4017bbd9b24ccb2b64e48ffbf\\transformed\\appcompat-1.7.0\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}

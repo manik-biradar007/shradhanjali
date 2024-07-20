@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/mtop"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/bgapp"
+        android:orientation="horizontal"
+        android:weightSum="1.6">
+
+        <ImageView
+            android:id="@+id/mclose"
+            android:layout_width="2dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:src="@drawable/death_card_rip_post_baseline_keyboard_arrow_left_24" />
+
+        <TextView
+            android:layout_width="294dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="కుటుంబ సభ్యుల పేర్లు మరియు నంబర్లు"
+            android:textColor="@color/button_textcolor"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/mrl_saveImagesss"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mtop">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="ఫారమ్ 3"
+                    android:textColor="@color/bgapp"
+                    android:textSize="19dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="నమోదు:"
+                            android:textColor="#d82f23"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="పేర్లు మరియు ఫోన్ నంబర్లు 1 నుండి 5 వరకు నమోదు చేయవచ్చు. కనీసం 1 మరియు 5 కన్నా ఎక్కువ పేర్లు మరియు ఫోన్ నంబర్లు నమోదు చేయకూడదు."
+                            android:textColor="#168e1b"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/name1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="1...................పేరు..................."
+                            android:maxLength="150"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:id="@+id/number1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="1...................నంబర్..................."
+                            android:maxLength="10"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/name2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="2...................పేరు..................."
+                            android:maxLength="100"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:id="@+id/number2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="2...................నంబర్..................."
+                            android:maxLength="10"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/name3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="3...................పేరు..................."
+                            android:maxLength="100"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:id="@+id/number3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="3...................నంబర్..................."
+                            android:maxLength="10"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/name4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="4...................పేరు..................."
+                            android:maxLength="100"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:id="@+id/number4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="4...................నంబర్..................."
+                            android:maxLength="10"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/name5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="5...................పేరు..................."
+                            android:maxLength="100"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+
+                        <EditText
+                            android:id="@+id/number5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/death_card_rip_post_ra_shpe"
+                            android:gravity="center"
+                            android:hint="5...................నంబర్..................."
+                            android:maxLength="10"
+                            android:minHeight="45dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/dull"
+                            android:textSize="16dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/mset_btn"
+                        android:layout_width="120dp"
+                        android:layout_height="46dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/ok_bg"
+                        android:gravity="center"
+                        android:text="Ok"
+                        android:textColor="@color/white"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</RelativeLayout>

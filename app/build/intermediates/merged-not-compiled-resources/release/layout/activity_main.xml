@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/death_card_rip_post_splash" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_above="@+id/banner1"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="30dp"
+                    android:padding="6sp"
+                    android:text="Select Language"
+                    android:textColor="@color/appcolor"
+                    android:textSize="23dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <Button
+                        android:id="@+id/eng"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:backgroundTint="@color/appcolor"
+                        android:padding="16dp"
+                        android:text="English"
+                        android:onClick="english"
+                        android:textColor="@color/color12"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/hin"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:backgroundTint="@color/appcolor"
+                        android:padding="16dp"
+                        android:text="Hindi (हिन्दी)"
+                        android:onClick="hindi"
+                        android:textColor="@color/color12"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/guj"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:backgroundTint="@color/appcolor"
+                        android:padding="16dp"
+                        android:text="Gujarati (ગુજરાતી)"
+                        android:onClick="gujarati"
+                        android:textColor="@color/color12"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/mar"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:backgroundTint="@color/appcolor"
+                        android:padding="16dp"
+                        android:text="Marathi (मराठी)"
+                        android:onClick="marathi"
+                        android:textColor="@color/color12"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/tel"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:backgroundTint="@color/appcolor"
+                        android:padding="16dp"
+                        android:text="Telugu (తెలుగు)"
+                        android:onClick="telugu"
+                        android:textColor="@color/color12"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/eng"-->
+<!--                        android:layout_width="330dp"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:gravity="center"-->
+<!--                        -->
+<!--                        android:src="@drawable/eng_btn" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/hin"-->
+<!--                        android:layout_width="330dp"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:layout_marginTop="15dp"-->
+<!--                        android:gravity="center"-->
+<!--                        -->
+<!--                        android:src="@drawable/hindi_btn"-->
+<!--                        android:visibility="visible" />-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/guj"-->
+<!--                        android:layout_width="330dp"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:layout_marginTop="15dp"-->
+<!--                        android:gravity="center"-->
+<!--                       -->
+<!--                        android:src="@drawable/guj_btn" />-->
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/banner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center" />
+
+    </RelativeLayout>
+</RelativeLayout>
