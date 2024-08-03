@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="( English , हिंदी , ગુજરાતી )"
+                android:text="( English , हिंदी , ગુજરાતી, मराठी, తెలుగు)"
                 android:textColor="@color/appcolor"
                 android:textSize="20sp"
                 android:textStyle="bold" />

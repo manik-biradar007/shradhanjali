@@ -10,6 +10,7 @@ import com.ereader.ripcardmaker.Activities.English_MainActivity;
 import com.ereader.ripcardmaker.Activities.Gujrati_MainActivity;
 import com.ereader.ripcardmaker.Activities.Hindi_MainActivity;
 import com.ereader.ripcardmaker.Activities.Marathi_MainActivity;
+import com.ereader.ripcardmaker.Activities.Telugu_MainActivity;
 
 
 public class Main_Activity extends AppCompatActivity {
@@ -32,35 +33,29 @@ public class Main_Activity extends AppCompatActivity {
     
     @Override 
     public void onDestroy() {
-
-        super.onDestroy();
-    }
+        super.onDestroy();    }
 
     public void hindi(View view) {
         this.strpos = "hindi";
-
             startActivity(new Intent(this, Hindi_MainActivity.class));
-
     }
 
     public void gujarati(View view) {
         this.strpos = "gujarati";
-
             startActivity(new Intent(this, Gujrati_MainActivity.class));
-
     }
 
     public void english(View view) {
         this.strpos = "english";
-
             startActivity(new Intent(this, English_MainActivity.class));
-
     }
     public void marathi(View view) {
         this.strpos = "marathi";
-
         startActivity(new Intent(this, Marathi_MainActivity.class));
-
+    }
+    public void telugu(View view) {
+        this.strpos = "telugu";
+        startActivity(new Intent(this, Telugu_MainActivity.class));
     }
     @Override 
     public void onBackPressed() {

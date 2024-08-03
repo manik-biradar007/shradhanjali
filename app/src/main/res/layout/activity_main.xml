@@ -70,7 +70,7 @@
                         android:layout_margin="8dp"
                         android:backgroundTint="@color/appcolor"
                         android:padding="16dp"
-                        android:text="Hindi"
+                        android:text="Hindi (हिन्दी)"
                         android:onClick="hindi"
                         android:textColor="@color/color12"
                         android:textSize="16sp"
@@ -82,7 +82,7 @@
                         android:layout_margin="8dp"
                         android:backgroundTint="@color/appcolor"
                         android:padding="16dp"
-                        android:text="Gujarati"
+                        android:text="Gujarati (ગુજરાતી)"
                         android:onClick="gujarati"
                         android:textColor="@color/color12"
                         android:textSize="16sp"
@@ -94,12 +94,23 @@
                         android:layout_margin="8dp"
                         android:backgroundTint="@color/appcolor"
                         android:padding="16dp"
-                        android:text="Marathi"
+                        android:text="Marathi (मराठी)"
                         android:onClick="marathi"
                         android:textColor="@color/color12"
                         android:textSize="16sp"
                         android:textStyle="bold" />
-
+                    <Button
+                        android:id="@+id/tel"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:backgroundTint="@color/appcolor"
+                        android:padding="16dp"
+                        android:text="Telugu (తెలుగు)"
+                        android:onClick="telugu"
+                        android:textColor="@color/color12"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 <!--                    <ImageView-->
 <!--                        android:id="@+id/eng"-->
 <!--                        android:layout_width="330dp"-->
