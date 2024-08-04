@@ -43,5 +43,5 @@ dependencies {
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
     implementation 'com.github.siyamed:android-shape-imageview:0.9.3'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
-//    implementation 'com.google.android.gms:play-services-ads:23.2.0'
+    implementation 'com.google.android.gms:play-services-ads:23.2.0'
 }

@@ -31,9 +31,9 @@
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
             android:value="true" />
-<!--        <meta-data-->
-<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-<!--            android:value="ca-app-pub-3940256099942544~3347511713"/>-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9127779292115408~8030479046"/>
         <activity
             android:name="com.ereader.ripcardmaker.Splash_Activity"
             android:exported="true">

@@ -41,6 +41,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ereader.ripcardmaker.AdAdmob;
 import com.ereader.ripcardmaker.Adapter.ImageAdapter;
 import com.ereader.ripcardmaker.Model.ImageModel;
 import com.ereader.ripcardmaker.R;
@@ -391,8 +392,8 @@ public class Telugu_MainActivity extends AppCompatActivity {
         super.onCreate(bundle);
         setContentView(R.layout.telugu_main_activity);
 
-        // AdAdmob adAdmob = new AdAdmob( this);
-        // adAdmob.FullscreenAd_Counter(this);
+         AdAdmob adAdmob = new AdAdmob( this);
+            AdAdmob.FullscreenAd(this);
 
         this.death_card_maker_rip_progress = new ProgressDialog(this);
         this.death_card_maker_rip_taluko = (EditText) findViewById(R.id.mtal);

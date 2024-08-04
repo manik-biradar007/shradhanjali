@@ -3,6 +3,7 @@ package com.ereader.ripcardmaker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,10 +23,9 @@ public class Main_Activity extends AppCompatActivity {
         super.onCreate(bundle);
         setContentView(R.layout.activity_main);
 
-//        AdAdmob adAdmob = new AdAdmob( this);
-//        adAdmob.BannerAd((RelativeLayout) findViewById(R.id.banner), this);
-//        adAdmob.FullscreenAd_Counter(this);
-
+        AdAdmob adAdmob = new AdAdmob( this);
+        adAdmob.BannerAd((RelativeLayout) findViewById(R.id.banner), this);
+        AdAdmob.FullscreenAd(this);
 
     }
 
