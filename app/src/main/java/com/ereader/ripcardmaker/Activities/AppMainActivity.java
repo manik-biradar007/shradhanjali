@@ -49,11 +49,6 @@ public class AppMainActivity extends AppCompatActivity {
         super.onCreate(bundle);
         setContentView(R.layout.activity_app_main);
 
-
-        AdAdmob adAdmob = new AdAdmob( this);
-        adAdmob.BannerAd((RelativeLayout) findViewById(R.id.banner), this);
-//           AdAdmob.FullscreenAd(this);
-
         this.death_card_maker_rip_text = (Button) findViewById(R.id.homePage);
         this.death_card_maker_rip_pp = (ImageView) findViewById(R.id.pp);
         this.death_card_maker_rip_rate = (ImageView) findViewById(R.id.rate);

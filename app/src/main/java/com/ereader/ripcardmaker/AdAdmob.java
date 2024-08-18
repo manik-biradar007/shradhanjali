@@ -25,90 +25,99 @@ import android.os.Handler;
 
 public class AdAdmob {
 
-    public static String BannerAdID = "ca-app-pub-9127779292115408/9042940715";
+    public static String BannerAdID = "ca-app-pub-9127779292115408/8408535374";
     public static String FullscreenAdID = "ca-app-pub-9127779292115408/4890144534";
 
     private static long lastAdTimestamp = 0;
     private static final long AD_INTERVAL_MS = 10000;
 
+    private static final boolean showAds = true;
+
     static ProgressDialog ProgressDialog;
 
     public AdAdmob(Activity activity) {
-        MobileAds.initialize(activity, initializationStatus -> {
-        });
+        if (showAds) {
+            MobileAds.initialize(activity, initializationStatus -> {});
+        }
     }
 
 
     public void BannerAd(final RelativeLayout Ad_Layout, Activity activity) {
 
-
-        AdView mAdView = new AdView(activity);
-        mAdView.setAdSize(AdSize.MEDIUM_RECTANGLE);
-        mAdView.setAdUnitId(BannerAdID);
-        AdRequest adore = new AdRequest.Builder().build();
-        mAdView.loadAd(adore);
-        Ad_Layout.addView(mAdView);
+        if (showAds) {
 
 
-        mAdView.setAdListener(new AdListener() {
+            AdView mAdView = new AdView(activity);
+            mAdView.setAdSize(AdSize.LARGE_BANNER);
+            mAdView.setAdUnitId(BannerAdID);
+            AdRequest adore = new AdRequest.Builder().build();
+            mAdView.loadAd(adore);
+            Ad_Layout.addView(mAdView);
 
-            @Override
-            public void onAdLoaded() {
-                Ad_Layout.setVisibility(View.VISIBLE);
-                super.onAdLoaded();
 
-                Log.e("ddddd", "dddd");
-            }
+            mAdView.setAdListener(new AdListener() {
 
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-                Ad_Layout.setVisibility(View.INVISIBLE);
-                Log.e("ddddd1", "dddd");
+                @Override
+                public void onAdLoaded() {
+                    Ad_Layout.setVisibility(View.VISIBLE);
+                    super.onAdLoaded();
 
-            }
+                    Log.e("ddddd", "dddd");
+                }
 
-            @Override
-            public void onAdFailedToLoad(LoadAdError loadAdError) {
-                super.onAdFailedToLoad(loadAdError);
-                mAdView.destroy();
-                Ad_Layout.setVisibility(View.INVISIBLE);
-                Log.e("ddddd2", "dddd" + loadAdError.getMessage());
+                @Override
+                public void onAdOpened() {
+                    super.onAdOpened();
+                    Ad_Layout.setVisibility(View.INVISIBLE);
+                    Log.e("ddddd1", "dddd");
 
-            }
-        });
+                }
+
+                @Override
+                public void onAdFailedToLoad(LoadAdError loadAdError) {
+                    super.onAdFailedToLoad(loadAdError);
+                    mAdView.destroy();
+                    Ad_Layout.setVisibility(View.INVISIBLE);
+                    Log.e("ddddd2", "dddd" + loadAdError.getMessage());
+
+                }
+            });
+
+        }
 
 
     }
 
     public static void FullscreenAd(final Activity activity) {
-        long currentTime = System.currentTimeMillis();
+        if (showAds) {
+            long currentTime = System.currentTimeMillis();
 
-        if (currentTime - lastAdTimestamp < AD_INTERVAL_MS) {
-            // Not enough time has passed since the last ad
-            return;
+            if (currentTime - lastAdTimestamp < AD_INTERVAL_MS) {
+                // Not enough time has passed since the last ad
+                return;
+            }
+
+            // Update the last ad timestamp
+            lastAdTimestamp = currentTime;
+
+            Ad_Popup(activity);
+
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+            InterstitialAd.load(activity, FullscreenAdID, adRequest,
+                    new InterstitialAdLoadCallback() {
+                        @Override
+                        public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                            interstitialAd.show(activity);
+                            ProgressDialog.dismiss();
+                        }
+
+                        @Override
+                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                            ProgressDialog.dismiss();
+                        }
+                    });
         }
-
-        // Update the last ad timestamp
-        lastAdTimestamp = currentTime;
-
-        Ad_Popup(activity);
-
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        InterstitialAd.load(activity, FullscreenAdID, adRequest,
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        interstitialAd.show(activity);
-                        ProgressDialog.dismiss();
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        ProgressDialog.dismiss();
-                    }
-                });
     }
 
 

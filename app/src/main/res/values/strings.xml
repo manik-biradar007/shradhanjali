@@ -1,0 +1,47 @@
+<resources>
+
+
+    <string name="app_name">Shradhanjali</string>
+    <string name="Privacypolicy">https://www.google.com/</string>
+    <string name="color_dialog_title">Choose color</string>
+    <string name="bpore">બપોરે</string>
+    <string name="bpore1">दोपहर</string>
+    <string name="bpore2">Afternoon</string>
+    <string name="mk">mk</string>
+    <string name="na">के रोज</string>
+    <string name="native_body">Body</string>
+    <string name="native_headline">Headline</string>
+    <string name="native_media_view">Media View</string>
+    <string name="ne">ने</string>
+    <string name="sanj">સાંજે</string>
+    <string name="sanj1">शाम</string>
+    <string name="sanj2">Evening</string>
+    <string name="svar">સવારે</string>
+    <string name="svar1">सुबह</string>
+    <string name="svar2">Morning</string>
+    <string name="tal1">तालुकों:</string>
+    <string name="var1">सोमवार</string>
+    <string name="var10">બુધવાર</string>
+    <string name="var11">ગુરુવાર</string>
+    <string name="var12">શુક્રવાર</string>
+    <string name="var13">શનિવાર</string>
+    <string name="var14">રવિવાર</string>
+    <string name="var15">Monday</string>
+    <string name="var16">Tuesday</string>
+    <string name="var17">Wednesday</string>
+    <string name="var18">Thursday</string>
+    <string name="var19">Friday</string>
+    <string name="var2">मंगलवार</string>
+    <string name="var20">Saturday</string>
+    <string name="var21">sunday</string>
+    <string name="var3">बुधवार</string>
+    <string name="var4">गुरुवार</string>
+    <string name="var5">शुक्रवार</string>
+    <string name="var6">शनिवार</string>
+    <string name="var7">रविवार</string>
+    <string name="var8">સોમવાર</string>
+    <string name="var9">મંગળવારે</string>
+
+<!--    ads-->
+    <string name="admob_app_id">ca-app-pub-9127779292115408~8030479046</string>
+</resources>

@@ -19,7 +19,7 @@
 
 
     <application
-        android:name="com.ereader.ripcardmaker.MyAppClass"
+        android:name="com.ereader.ripcardmaker.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -33,7 +33,7 @@
             android:value="true" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-9127779292115408~8030479046"/>
+            android:value="@string/admob_app_id"/>
         <activity
             android:name="com.ereader.ripcardmaker.Splash_Activity"
             android:exported="true">

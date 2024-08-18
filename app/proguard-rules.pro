@@ -34,4 +34,7 @@
 
 -keep class org.xmlpull.** { *; }
 -keepclassmembers class org.xmlpull.** { *; }
+-keepclassmembers class * {
+    public void *(android.view.View);
+}
 
