@@ -25,8 +25,8 @@ import android.os.Handler;
 
 public class AdAdmob {
 
-    public static String BannerAdID = "ca-app-pub-9127779292115408/8408535374";
-    public static String FullscreenAdID = "ca-app-pub-9127779292115408/4890144534";
+    public static String BannerAdID = "/21849154601,22991801446/Ad.Plus-APP-Banner";
+    public static String FullscreenAdID = "/21849154601,22991801446/Ad.Plus-APP-Interstitial";
 
     private static long lastAdTimestamp = 0;
     private static final long AD_INTERVAL_MS = 10000;
