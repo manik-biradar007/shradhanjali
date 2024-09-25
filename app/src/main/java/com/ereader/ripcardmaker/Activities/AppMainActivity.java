@@ -54,45 +54,56 @@ public class AppMainActivity extends AppCompatActivity {
         this.death_card_maker_rip_rate = (ImageView) findViewById(R.id.rate);
         this.death_card_maker_rip_share = (ImageView) findViewById(R.id.share);
         MyUtils.checkPermission(this, auto_bgremover_photoeditor_permissions());
-        this.death_card_maker_rip_text.setOnClickListener(new View.OnClickListener() { 
-            @Override 
-            public void onClick(View view) {
-                AppMainActivity.this.fun_permission();
+        this.death_card_maker_rip_text.setOnClickListener(view -> AppMainActivity.this.fun_permission());
+        this.death_card_maker_rip_share.setOnClickListener(view -> {
+            try {
+                Intent intent = new Intent("android.intent.action.SEND");
+                intent.setType("text/plain");
+                intent.putExtra("android.intent.extra.SUBJECT", AppMainActivity.this.getString(R.string.app_name));
+                intent.putExtra("android.intent.extra.TEXT", "\nLet me recommend you this application\n\nhttps://play.google.com/store/apps/details?id=" + AppMainActivity.this.getPackageName() + "\n\n");
+                AppMainActivity.this.startActivity(Intent.createChooser(intent, "choose one"));
+            } catch (Exception unused) {
             }
         });
-        this.death_card_maker_rip_share.setOnClickListener(new View.OnClickListener() { 
-            @Override 
-            public void onClick(View view) {
-                try {
-                    Intent intent = new Intent("android.intent.action.SEND");
-                    intent.setType("text/plain");
-                    intent.putExtra("android.intent.extra.SUBJECT", AppMainActivity.this.getString(R.string.app_name));
-                    intent.putExtra("android.intent.extra.TEXT", "\nLet me recommend you this application\n\nhttps://play.google.com/store/apps/details?id=" + AppMainActivity.this.getPackageName() + "\n\n");
-                    AppMainActivity.this.startActivity(Intent.createChooser(intent, "choose one"));
-                } catch (Exception unused) {
-                }
+        this.death_card_maker_rip_rate.setOnClickListener(view -> {
+            try {
+                AppMainActivity.this.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=" + AppMainActivity.this.getPackageName())));
+            } catch (ActivityNotFoundException unused) {
+                AppMainActivity.this.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=" + AppMainActivity.this.getPackageName())));
             }
         });
-        this.death_card_maker_rip_rate.setOnClickListener(new View.OnClickListener() { 
-            @Override 
-            public void onClick(View view) {
-                try {
-                    AppMainActivity.this.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=" + AppMainActivity.this.getPackageName())));
-                } catch (ActivityNotFoundException unused) {
-                    AppMainActivity.this.startActivity(new Intent("android.intent.action.VIEW", Uri.parse("https://play.google.com/store/apps/details?id=" + AppMainActivity.this.getPackageName())));
-                }
-            }
-        });
-        this.death_card_maker_rip_pp.setOnClickListener(new View.OnClickListener() { 
-            @Override 
-            public void onClick(View view) {
-                try {
-                    AppMainActivity.this.startActivity(new Intent("android.intent.action.VIEW", Uri.parse(AppMainActivity.this.getString(R.string.Privacypolicy))));
-                } catch (ActivityNotFoundException unused) {
-                }
+        this.death_card_maker_rip_pp.setOnClickListener(view -> {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.stackoverflow.com")));
+            } catch (ActivityNotFoundException unused) {
             }
         });
     }
+
+    public void openLink(View view) {
+        String url = "";
+        int id = view.getId();
+
+        if (id == R.id.pricingPolicy) {
+            url = "https://freebiodatamaker.com/pricing-policy-for-shradhanjali-frame-maker/";
+        } else if (id == R.id.shippingPolicy) {
+            url = "https://freebiodatamaker.com/shipping-policy-for-shradhanjali-frame-maker/";
+        } else if (id == R.id.termsAndConditions) {
+            url = "https://freebiodatamaker.com/terms-and-conditions-for-shradhanjali-frame-maker/";
+        } else if (id == R.id.privacyPolicy) {
+            url = "https://freebiodatamaker.com/privacy-policy-for-shradhanjali-frame-maker/";
+        } else if (id == R.id.cancellationRefundPolicy) {
+            url = "https://freebiodatamaker.com/cancellation-and-refund-policy-for-shradhanjali-frame-maker/";
+        }
+
+        if (!url.isEmpty()) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+        }
+    }
+
+
+
 
     @Override 
     public void onBackPressed() {
@@ -107,19 +118,11 @@ public class AppMainActivity extends AppCompatActivity {
         this.exitDialog = create;
         create.getWindow().setBackgroundDrawable(new ColorDrawable(0));
         this.exitDialog.setCancelable(false);
-        ((TextView) inflate.findViewById(R.id.skip)).setOnClickListener(new View.OnClickListener() { 
-            @Override 
-            public void onClick(View view) {
-                AppMainActivity.this.exitDialog.dismiss();
-            }
-        });
-        ((TextView) inflate.findViewById(R.id.yes)).setOnClickListener(new View.OnClickListener() { 
-            @Override 
-            public void onClick(View view) {
-                AppMainActivity.this.exitDialog.dismiss();
-                AppMainActivity.this.finishAffinity();
-                System.exit(0);
-            }
+        ((TextView) inflate.findViewById(R.id.skip)).setOnClickListener(view -> AppMainActivity.this.exitDialog.dismiss());
+        ((TextView) inflate.findViewById(R.id.yes)).setOnClickListener(view -> {
+            AppMainActivity.this.exitDialog.dismiss();
+            AppMainActivity.this.finishAffinity();
+            System.exit(0);
         });
         this.exitDialog.show();
     }
