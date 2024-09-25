@@ -87,7 +87,7 @@ public class MyApplication extends Application implements Application.ActivityLi
     }
 
     private static class AppOpenAdManager {
-        private static final String AD_ID = "/21849154601,22991801446/Ad.Plus-APP-APPOpen";
+        private static final String AD_ID = "ca-app-pub-9127779292115408/1049566902";
         private AppOpenAd appOpenAd = null;
         private boolean isLoadingAd = false;
         private boolean isShowingAd = false;

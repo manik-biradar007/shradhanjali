@@ -976,7 +976,7 @@ public class Gujrati_MainActivity extends AppCompatActivity {
         create.show();
     }
 
-    public void death_card_maker_rip_divo1_click(View view) {
+    public void divo1_click(View view) {
         findViewById(R.id.maindiya0).performClick();
     }
 

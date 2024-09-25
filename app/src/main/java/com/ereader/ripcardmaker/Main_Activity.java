@@ -23,8 +23,8 @@ public class Main_Activity extends AppCompatActivity {
         super.onCreate(bundle);
         setContentView(R.layout.activity_main);
 
-        AdAdmob adAdmob = new AdAdmob( this);
-        adAdmob.BannerAd((RelativeLayout) findViewById(R.id.banner), this);
+//        AdAdmob adAdmob = new AdAdmob( this);
+//        adAdmob.BannerAd((RelativeLayout) findViewById(R.id.banner), this);
         AdAdmob.FullscreenAd(this);
 
     }
