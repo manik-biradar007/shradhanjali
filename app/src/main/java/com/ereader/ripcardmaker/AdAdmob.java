@@ -31,7 +31,7 @@ public class AdAdmob {
     private static long lastAdTimestamp = 0;
     private static final long AD_INTERVAL_MS = 15000;
 
-    private static final boolean showAds = true;
+    private static final boolean showAds = false;
 
     static ProgressDialog ProgressDialog;
 

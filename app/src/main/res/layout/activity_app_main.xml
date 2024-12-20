@@ -70,6 +70,17 @@
                 android:textColor="@color/button_textcolor"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+            <Button
+                android:id="@+id/payment"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:backgroundTint="@color/appcolor"
+                android:padding="16dp"
+                android:text="Pay 19 To donwload"
+                android:textColor="@color/button_textcolor"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"

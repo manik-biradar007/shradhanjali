@@ -1,5 +1,6 @@
 package com.ereader.ripcardmaker.Activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,16 +26,22 @@ import com.ereader.ripcardmaker.AdAdmob;
 import com.ereader.ripcardmaker.R;
 import com.ereader.ripcardmaker.Main_Activity;
 import com.ereader.ripcardmaker.MyUtils;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
+
+import org.json.JSONObject;
 
 
-public class AppMainActivity extends AppCompatActivity {
+public class AppMainActivity extends AppCompatActivity implements PaymentResultListener {
     public static String[] storge_permissions = {"android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.READ_EXTERNAL_STORAGE"};
     public static String[] storge_permissions_33 = {"android.permission.READ_MEDIA_IMAGES"};
     ImageView death_card_maker_rip_pp;
     ImageView death_card_maker_rip_rate;
     ImageView death_card_maker_rip_share;
-    Button death_card_maker_rip_text;
+    Button death_card_maker_rip_text, paymentBtn;
     AlertDialog exitDialog;
+
+    Boolean isPaid = false;
 
     public static String[] auto_bgremover_photoeditor_permissions() {
         if (Build.VERSION.SDK_INT >= 33) {
@@ -50,6 +58,7 @@ public class AppMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_app_main);
 
         this.death_card_maker_rip_text = (Button) findViewById(R.id.homePage);
+        this.paymentBtn = (Button) findViewById(R.id.payment);
         this.death_card_maker_rip_pp = (ImageView) findViewById(R.id.pp);
         this.death_card_maker_rip_rate = (ImageView) findViewById(R.id.rate);
         this.death_card_maker_rip_share = (ImageView) findViewById(R.id.share);
@@ -78,6 +87,45 @@ public class AppMainActivity extends AppCompatActivity {
             } catch (ActivityNotFoundException unused) {
             }
         });
+        this.paymentBtn.setOnClickListener(view -> {
+            startPayment();
+        });
+
+        Checkout.preload(getApplicationContext());
+
+
+
+    }
+
+    public void startPayment() {
+
+        String TAG = "PAYMENT";
+        Checkout checkout = new Checkout();
+        checkout.setKeyID("rzp_live_PcL4M3fpUl5kw7");
+        checkout.setImage(R.drawable.death_card_rip_post_diya1);
+        final Activity activity = this;
+        try {
+            JSONObject options = new JSONObject();
+
+            options.put("name", R.string.app_name);
+            options.put("description", "shradhanjali");
+           options.put("image", "https://play-lh.googleusercontent.com/M2ZXXelWMCmrcIkzpLWNDbyU8APXDodAx3EjphhewIkFBrlRhuABEuI9Mkykp4V0SPBM=w480-h960-rw");
+//            options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
+            options.put("theme.color", "#9b2040");
+            options.put("currency", "INR");
+            options.put("amount", "100");//pass amount in currency subunits
+//            options.put("prefill.email", "shradhanjali@gmail.com");
+//            options.put("prefill.contact","9988776655");
+            JSONObject retryObj = new JSONObject();
+            retryObj.put("enabled", true);
+            retryObj.put("max_count", 4);
+            options.put("retry", retryObj);
+
+            checkout.open(activity, options);
+
+        } catch(Exception e) {
+            Log.e(TAG, "Error in starting Razorpay Checkout", e);
+        }
     }
 
     public void openLink(View view) {
@@ -175,5 +223,17 @@ public class AppMainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onPaymentSuccess(String s) {
+        Toast.makeText(this, "Payment Done", Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        Toast.makeText(this, "Payment Failed", Toast.LENGTH_LONG).show();
+
     }
 }

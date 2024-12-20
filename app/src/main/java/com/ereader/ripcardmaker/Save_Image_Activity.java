@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +20,6 @@ import com.ereader.ripcardmaker.Activities.AppMainActivity;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
 
 public class Save_Image_Activity extends AppCompatActivity {
     Bitmap death_card_maker_rip_bitmap;
@@ -35,12 +35,11 @@ public class Save_Image_Activity extends AppCompatActivity {
         adAdmob.BannerAd((RelativeLayout) findViewById(R.id.banner), this);
         AdAdmob.FullscreenAd(this);
 
-
         this.results = (ImageView) findViewById(R.id.imgResultImage);
         String stringExtra = getIntent().getStringExtra("img");
-        Log.e("mk", "stringExtra" + stringExtra);
+        Log.e("mk", "stringExtra: " + stringExtra);
         this.file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Shradhdhanjali");
-        Log.e("mk1", "if" + this.file);
+        Log.e("mk1", "if: " + this.file);
         if (!this.file.exists()) {
             this.file.mkdirs();
         }
@@ -50,20 +49,29 @@ public class Save_Image_Activity extends AppCompatActivity {
             Bitmap decodeStream = BitmapFactory.decodeStream(new FileInputStream(file));
             this.death_card_maker_rip_bitmap = decodeStream;
             this.results.setImageBitmap(decodeStream);
-            Log.e("mk", "try" + file);
+            Log.e("mk", "try: " + file);
         } catch (FileNotFoundException e) {
-            Log.e(getString(R.string.mk), "catch" + e);
+            Log.e(getString(R.string.mk), "catch: " + e);
             e.printStackTrace();
         }
+
         findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri parse = Uri.parse(MediaStore.Images.Media.insertImage(Save_Image_Activity.this.getContentResolver(), Save_Image_Activity.this.death_card_maker_rip_bitmap, "RIPCard", (String) null));
-                Intent intent = new Intent("android.intent.action.SEND");
+                Uri parse = Uri.parse(MediaStore.Images.Media.insertImage(Save_Image_Activity.this.getContentResolver(), Save_Image_Activity.this.death_card_maker_rip_bitmap, "RIPCard", null));
+                Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("image/png");
-                intent.putExtra("android.intent.extra.STREAM", parse);
-                Log.e("mk", "share" + parse);
+                intent.putExtra(Intent.EXTRA_STREAM, parse);
+                Log.e("mk", "share: " + parse);
                 Save_Image_Activity.this.startActivity(Intent.createChooser(intent, "Share"));
+            }
+        });
+
+        // Add a click listener for the "Download" button
+        findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveImageToGallery(death_card_maker_rip_bitmap);
             }
         });
     }
@@ -78,9 +86,33 @@ public class Save_Image_Activity extends AppCompatActivity {
         startActivity(new Intent(this, AppMainActivity.class));
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    /**
+     * Saves a bitmap to the gallery.
+     */
+    private void saveImageToGallery(Bitmap bitmap) {
+        try {
+            String savedImageURL = MediaStore.Images.Media.insertImage(
+                    getContentResolver(),
+                    bitmap,
+                    "RIPCard_" + System.currentTimeMillis(),
+                    "Generated RIP Card"
+            );
+
+            if (savedImageURL != null) {
+                Uri savedImageUri = Uri.parse(savedImageURL);
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, savedImageUri));
+                Toast.makeText(this, "Image saved successfully", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Error while saving image", Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error while saving image", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
     }
 }
