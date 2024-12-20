@@ -97,7 +97,7 @@ public class Save_Image_Activity extends AppCompatActivity implements PaymentRes
 //            options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
             options.put("theme.color", "#9b2040");
             options.put("currency", "INR");
-            options.put("amount", "100");//pass amount in currency subunits
+            options.put("amount", "1900");//pass amount in currency subunits
 //            options.put("prefill.email", "shradhanjali@gmail.com");
 //            options.put("prefill.contact","9988776655");
             JSONObject retryObj = new JSONObject();
