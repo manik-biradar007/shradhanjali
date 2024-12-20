@@ -45,4 +45,5 @@
     <color name="teal_700">#ff018786</color>
     <color name="transparent">#00000000</color>
     <color name="white">#ffffffff</color>
+    <color name="preview">#6A1AFF00</color>
 </resources>

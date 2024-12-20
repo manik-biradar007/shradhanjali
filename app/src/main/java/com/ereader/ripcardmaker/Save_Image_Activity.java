@@ -1,5 +1,6 @@
 package com.ereader.ripcardmaker;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,18 +11,24 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ereader.ripcardmaker.Activities.AppMainActivity;
+import com.razorpay.Checkout;
+import com.razorpay.PaymentResultListener;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class Save_Image_Activity extends AppCompatActivity {
+public class Save_Image_Activity extends AppCompatActivity implements PaymentResultListener {
     Bitmap death_card_maker_rip_bitmap;
     File file;
     ImageView results;
@@ -68,12 +75,41 @@ public class Save_Image_Activity extends AppCompatActivity {
         });
 
         // Add a click listener for the "Download" button
-        findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveImageToGallery(death_card_maker_rip_bitmap);
-            }
-        });
+        findViewById(R.id.download).setOnClickListener(view -> saveImageToGallery(death_card_maker_rip_bitmap));
+
+        Checkout.preload(getApplicationContext());
+        findViewById(R.id.payText).setOnClickListener(view -> startPayment());
+    }
+
+    public void startPayment() {
+
+        String TAG = "PAYMENT";
+        Checkout checkout = new Checkout();
+        checkout.setKeyID("rzp_live_PcL4M3fpUl5kw7");
+        checkout.setImage(R.drawable.death_card_rip_post_diya1);
+        final Activity activity = this;
+        try {
+            JSONObject options = new JSONObject();
+
+            options.put("name", "Shradhanjali");
+            options.put("description", "shradhanjali");
+            options.put("image", "https://png.pngtree.com/png-vector/20241009/ourmid/pngtree-happy-diwali-celebrate-diya-concept-png-image_14005928.png");
+//            options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
+            options.put("theme.color", "#9b2040");
+            options.put("currency", "INR");
+            options.put("amount", "100");//pass amount in currency subunits
+//            options.put("prefill.email", "shradhanjali@gmail.com");
+//            options.put("prefill.contact","9988776655");
+            JSONObject retryObj = new JSONObject();
+            retryObj.put("enabled", true);
+            retryObj.put("max_count", 4);
+            options.put("retry", retryObj);
+
+            checkout.open(activity, options);
+
+        } catch(Exception e) {
+            Log.e(TAG, "Error in starting Razorpay Checkout", e);
+        }
     }
 
     @Override
@@ -114,5 +150,23 @@ public class Save_Image_Activity extends AppCompatActivity {
             Toast.makeText(this, "Error while saving image", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+    }
+    @Override
+    public void onPaymentSuccess(String s) {
+        Toast.makeText(this, "Payment Done", Toast.LENGTH_LONG).show();
+
+        LinearLayout paySection = findViewById(R.id.paymentSection);
+        paySection.setVisibility(View.GONE);
+        TextView imgPreviewText = findViewById(R.id.imgPreviewText);
+        imgPreviewText.setVisibility(View.GONE);
+
+        LinearLayout actionSection = findViewById(R.id.actionSection);
+        actionSection.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPaymentError(int i, String s) {
+        Toast.makeText(this, "Payment Failed, please try again.", Toast.LENGTH_LONG).show();
+
     }
 }
