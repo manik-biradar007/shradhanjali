@@ -42,6 +42,8 @@ public class Save_Image_Activity extends AppCompatActivity implements PaymentRes
         adAdmob.BannerAd((RelativeLayout) findViewById(R.id.banner), this);
         AdAdmob.FullscreenAd(this);
 
+        findViewById(R.id.banner).setOnClickListener(v -> paid());
+
         this.results = (ImageView) findViewById(R.id.imgResultImage);
         String stringExtra = getIntent().getStringExtra("img");
         Log.e("mk", "stringExtra: " + stringExtra);
@@ -62,16 +64,13 @@ public class Save_Image_Activity extends AppCompatActivity implements PaymentRes
             e.printStackTrace();
         }
 
-        findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri parse = Uri.parse(MediaStore.Images.Media.insertImage(Save_Image_Activity.this.getContentResolver(), Save_Image_Activity.this.death_card_maker_rip_bitmap, "RIPCard", null));
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("image/png");
-                intent.putExtra(Intent.EXTRA_STREAM, parse);
-                Log.e("mk", "share: " + parse);
-                Save_Image_Activity.this.startActivity(Intent.createChooser(intent, "Share"));
-            }
+        findViewById(R.id.share).setOnClickListener(view -> {
+            Uri parse = Uri.parse(MediaStore.Images.Media.insertImage(Save_Image_Activity.this.getContentResolver(), Save_Image_Activity.this.death_card_maker_rip_bitmap, "RIPCard", null));
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("image/png");
+            intent.putExtra(Intent.EXTRA_STREAM, parse);
+            Log.e("mk", "share: " + parse);
+            Save_Image_Activity.this.startActivity(Intent.createChooser(intent, "Share"));
         });
 
         // Add a click listener for the "Download" button
@@ -155,20 +154,27 @@ public class Save_Image_Activity extends AppCompatActivity implements PaymentRes
     }
     @Override
     public void onPaymentSuccess(String s) {
-        Toast.makeText(this, "Payment Done", Toast.LENGTH_LONG).show();
-
-        LinearLayout paySection = findViewById(R.id.paymentSection);
-        paySection.setVisibility(View.GONE);
-        TextView imgPreviewText = findViewById(R.id.imgPreviewText);
-        imgPreviewText.setVisibility(View.GONE);
-
-        LinearLayout actionSection = findViewById(R.id.actionSection);
-        actionSection.setVisibility(View.VISIBLE);
+        paid();
     }
 
     @Override
     public void onPaymentError(int i, String s) {
         Toast.makeText(this, "Payment Failed, please try again.", Toast.LENGTH_LONG).show();
 
+    }
+    public void paid(){
+        Toast.makeText(this, "Payment Done", Toast.LENGTH_LONG).show();
+
+        LinearLayout paySection = findViewById(R.id.paymentSection);
+        paySection.setVisibility(View.GONE);
+
+        TextView imgPreviewText = findViewById(R.id.imgPreviewText);
+        imgPreviewText.setVisibility(View.GONE);
+
+        LinearLayout payText = findViewById(R.id.textAds);
+        payText.setVisibility(View.GONE);
+
+        LinearLayout actionSection = findViewById(R.id.actionSection);
+        actionSection.setVisibility(View.VISIBLE);
     }
 }
