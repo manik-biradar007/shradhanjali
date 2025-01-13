@@ -66,7 +66,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="मात्र ₹19 का भुगतान करके अपना श्रद्धांजलि कार्ड तुरंत डाउनलोड करें और अपने प्रियजनों को श्रद्धांजलि दें।"
+                    android:text="मात्र ₹9 का भुगतान करके अपना श्रद्धांजलि कार्ड तुरंत डाउनलोड करें और अपने प्रियजनों को श्रद्धांजलि दें।"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
                     android:textStyle="bold" />
