@@ -356,7 +356,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
-                                android:hint="સ્વ.મૃતકનું નામ લખો"
+                                android:hint="સ્વ. [નામ]"
                                 android:maxLength="100"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/hinttextcolor"

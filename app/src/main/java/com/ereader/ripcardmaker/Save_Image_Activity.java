@@ -1,6 +1,5 @@
 package com.ereader.ripcardmaker;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,16 +18,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ereader.ripcardmaker.Activities.AppMainActivity;
-import com.razorpay.Checkout;
-import com.razorpay.PaymentResultListener;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class Save_Image_Activity extends AppCompatActivity implements PaymentResultListener {
+public class Save_Image_Activity extends AppCompatActivity {
+
     Bitmap death_card_maker_rip_bitmap;
     File file;
     ImageView results;
@@ -42,80 +38,63 @@ public class Save_Image_Activity extends AppCompatActivity implements PaymentRes
         adAdmob.BannerAd((RelativeLayout) findViewById(R.id.banner), this);
         AdAdmob.FullscreenAd(this);
 
-        findViewById(R.id.banner).setOnClickListener(v -> paid());
-
         this.results = (ImageView) findViewById(R.id.imgResultImage);
         String stringExtra = getIntent().getStringExtra("img");
         Log.e("mk", "stringExtra: " + stringExtra);
-        this.file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Shradhdhanjali");
-        Log.e("mk1", "if: " + this.file);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            this.file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Shradhdhanjali");
+        } else {
+            this.file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Shradhdhanjali");
+        }
+
         if (!this.file.exists()) {
             this.file.mkdirs();
         }
         sendBroadcast(new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE", Uri.fromFile(this.file)));
+
         try {
-            File file = new File(this.file, stringExtra);
-            Bitmap decodeStream = BitmapFactory.decodeStream(new FileInputStream(file));
-            this.death_card_maker_rip_bitmap = decodeStream;
-            this.results.setImageBitmap(decodeStream);
-            Log.e("mk", "try: " + file);
+            File imageFile = new File(this.file, stringExtra);
+            Bitmap bmp = BitmapFactory.decodeStream(new FileInputStream(imageFile));
+            this.death_card_maker_rip_bitmap = bmp;
+            this.results.setImageBitmap(bmp);
         } catch (FileNotFoundException e) {
             Log.e(getString(R.string.mk), "catch: " + e);
-            e.printStackTrace();
         }
 
+        // Share button
         findViewById(R.id.share).setOnClickListener(view -> {
-            Uri parse = Uri.parse(MediaStore.Images.Media.insertImage(Save_Image_Activity.this.getContentResolver(), Save_Image_Activity.this.death_card_maker_rip_bitmap, "RIPCard", null));
+            Uri parse = Uri.parse(MediaStore.Images.Media.insertImage(
+                    getContentResolver(), death_card_maker_rip_bitmap, "RIPCard", null));
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("image/png");
             intent.putExtra(Intent.EXTRA_STREAM, parse);
-            Log.e("mk", "share: " + parse);
-            Save_Image_Activity.this.startActivity(Intent.createChooser(intent, "Share"));
+            startActivity(Intent.createChooser(intent, "Share"));
         });
 
-        // Add a click listener for the "Download" button
+        // Download button
         findViewById(R.id.download).setOnClickListener(view -> saveImageToGallery(death_card_maker_rip_bitmap));
 
-        Checkout.preload(getApplicationContext());
-        findViewById(R.id.payText).setOnClickListener(view -> startPayment());
+        // Watch ad to unlock download/share
+        findViewById(R.id.payText).setOnClickListener(view ->
+                AdAdmob.FullscreenAdWithReward(this, this::unlockActions));
     }
 
-    public void startPayment() {
+    /** Called when user has watched the reward ad — shows save/share controls. */
+    public void unlockActions() {
+        Toast.makeText(this, "Unlocked! You can now save & share.", Toast.LENGTH_SHORT).show();
 
-        String TAG = "PAYMENT";
-        Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_live_PcL4M3fpUl5kw7");
-        checkout.setImage(R.drawable.death_card_rip_post_diya1);
-        final Activity activity = this;
-        try {
-            JSONObject options = new JSONObject();
+        LinearLayout paySection = findViewById(R.id.paymentSection);
+        paySection.setVisibility(View.GONE);
 
-            options.put("name", "Shradhanjali");
-            options.put("description", "shradhanjali");
-            options.put("image", "https://png.pngtree.com/png-vector/20241009/ourmid/pngtree-happy-diwali-celebrate-diya-concept-png-image_14005928.png");
-//            options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
-            options.put("theme.color", "#9b2040");
-            options.put("currency", "INR");
-            options.put("amount", "900");//pass amount in currency subunits
-            options.put("prefill.email", "i@shradhanjali.in");
-            options.put("notes.domain", "i");
-            options.put("notes.type", "card");
-//            options.put("prefill.contact","9988776655");
-            JSONObject retryObj = new JSONObject();
-            retryObj.put("enabled", true);
-            retryObj.put("max_count", 4);
-            options.put("retry", retryObj);
+        TextView imgPreviewText = findViewById(R.id.imgPreviewText);
+        imgPreviewText.setVisibility(View.GONE);
 
-            checkout.open(activity, options);
+        LinearLayout textAds = findViewById(R.id.textAds);
+        textAds.setVisibility(View.GONE);
 
-        } catch(Exception e) {
-            Log.e(TAG, "Error in starting Razorpay Checkout", e);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(this, AppMainActivity.class));
+        LinearLayout actionSection = findViewById(R.id.actionSection);
+        actionSection.setVisibility(View.VISIBLE);
     }
 
     public void createNew(View view) {
@@ -124,13 +103,10 @@ public class Save_Image_Activity extends AppCompatActivity implements PaymentRes
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onBackPressed() {
+        startActivity(new Intent(this, AppMainActivity.class));
     }
 
-    /**
-     * Saves a bitmap to the gallery.
-     */
     private void saveImageToGallery(Bitmap bitmap) {
         try {
             String savedImageURL = MediaStore.Images.Media.insertImage(
@@ -139,42 +115,14 @@ public class Save_Image_Activity extends AppCompatActivity implements PaymentRes
                     "RIPCard_" + System.currentTimeMillis(),
                     "Generated RIP Card"
             );
-
             if (savedImageURL != null) {
-                Uri savedImageUri = Uri.parse(savedImageURL);
-                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, savedImageUri));
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(savedImageURL)));
                 Toast.makeText(this, "Image saved successfully", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Error while saving image", Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             Toast.makeText(this, "Error while saving image", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
         }
-    }
-    @Override
-    public void onPaymentSuccess(String s) {
-        paid();
-    }
-
-    @Override
-    public void onPaymentError(int i, String s) {
-        Toast.makeText(this, "Payment Failed, please try again.", Toast.LENGTH_LONG).show();
-
-    }
-    public void paid(){
-        Toast.makeText(this, "Payment Done", Toast.LENGTH_LONG).show();
-
-        LinearLayout paySection = findViewById(R.id.paymentSection);
-        paySection.setVisibility(View.GONE);
-
-        TextView imgPreviewText = findViewById(R.id.imgPreviewText);
-        imgPreviewText.setVisibility(View.GONE);
-
-        LinearLayout payText = findViewById(R.id.textAds);
-        payText.setVisibility(View.GONE);
-
-        LinearLayout actionSection = findViewById(R.id.actionSection);
-        actionSection.setVisibility(View.VISIBLE);
     }
 }

@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="મુત્યુ થયેલ વ્યક્તિ ની માહિતી  "
+            android:text="સ્વર્ગવાસીની માહિતી"
             android:textColor="@color/button_textcolor"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -167,7 +167,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="મૃતકનું નામ લખો."
+                                android:text="સ્વ.નું નામ લખો"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="16dp"
                                 android:textStyle="bold" />

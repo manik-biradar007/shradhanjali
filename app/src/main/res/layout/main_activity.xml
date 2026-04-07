@@ -357,7 +357,7 @@
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:maxLength="100"
-                                android:text=" मृतक का नाम लिखें"
+                                android:text="स्वर्गीय नाम"
                                 android:textColor="@color/hinttextcolor"
                                 android:textSize="17dp"
                                 android:textStyle="bold" />

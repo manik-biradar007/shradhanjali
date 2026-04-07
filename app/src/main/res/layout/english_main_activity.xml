@@ -357,7 +357,7 @@
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:maxLength="100"
-                                android:text="Late.dead persone name"
+                                android:text="Late [Name]"
                                 android:textColor="@color/hinttextcolor"
                                 android:textSize="17dp"
                                 android:textStyle="bold" />

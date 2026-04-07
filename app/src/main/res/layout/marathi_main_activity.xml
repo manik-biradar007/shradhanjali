@@ -358,7 +358,7 @@
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:maxLength="100"
-                                android:text="मृतकाचे नाव लिहा"
+                                android:text="स्वर्गीयांचे नाव"
                                 android:textColor="@color/hinttextcolor"
                                 android:textSize="17dp"
                                 android:textStyle="bold" />
@@ -463,7 +463,6 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_margin="2dp"
                                     android:gravity="center"
-                                    android:text="कळविण्यात अत्यंत दुःख होत आहे की, आमचे वडील महादेव शेषराव जाधव (वय ५९ वर्षे), राहणार यलमवाडी, यांचे २५/०५/२०२१, गुरुवार रोजी दुःखद निधन झाले. परमेश्वर त्यांच्या आत्म्यास चिरशांती देवो, हीच ईश्वर चरणी प्रार्थना."
                                     android:textColor="@color/black"
                                     android:textSize="15dp" />
                             </LinearLayout>
@@ -538,7 +537,6 @@
                                         android:layout_gravity="center"
                                         android:gravity="center"
                                         android:textColor="@color/black"
-                                        android:text="दिनांक ०२/१२/२०२४ मंगळवार, दुपारी ३:५० वाजता."
                                         android:textSize="15dp" />
 
                                     <TextView
@@ -547,7 +545,6 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:gravity="center"
-                                        android:text="पत्ता: विठ्ठल रुक्मिणी मंदिरासमोर, गल्ली नंबर ५, मनोहर नगर, लातूर - ४१०२१५"
                                         android:textColor="@color/black"
                                         android:textSize="15dp" />
                                 </LinearLayout>
@@ -596,7 +593,8 @@
                                     android:paddingHorizontal="@dimen/_6sdp"
                                     android:layout_marginTop="8dp"
                                     android:layout_marginRight="8sp"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
 
                                     <LinearLayout
                                         android:layout_width="match_parent"

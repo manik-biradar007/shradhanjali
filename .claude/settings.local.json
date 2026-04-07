@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sed 's/public void //')",
+      "Bash(sed 's/\\($//')",
+      "Bash(wc -l /d/Personal/Android/Shradhanjali/app/src/main/java/com/ereader/ripcardmaker/Activities/*.java)"
+    ]
+  }
+}
