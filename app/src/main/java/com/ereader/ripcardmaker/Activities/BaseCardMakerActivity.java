@@ -12,8 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -40,7 +38,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
-import com.ereader.ripcardmaker.AdAdmob;
+import com.ereader.ripcardmaker.AdManager;
 import com.ereader.ripcardmaker.Constants;
 import com.ereader.ripcardmaker.R;
 import com.ereader.ripcardmaker.Adapter.ImageAdapter;
@@ -73,6 +71,9 @@ public abstract class BaseCardMakerActivity extends AppCompatActivity {
 
     @LayoutRes
     protected abstract int getExitDialogLayoutId();
+
+    /** Sets default preview text with (...) placeholders shown before forms are filled. */
+    protected abstract void setDefaultPreviewTexts();
 
     /** Inflates and shows the first form (deceased info). */
     protected abstract void showForm1Dialog();
@@ -107,8 +108,6 @@ public abstract class BaseCardMakerActivity extends AppCompatActivity {
     protected ImageView death_card_maker_rip_design_img;
     protected FrameLayout death_card_maker_rip_design_layout;
     protected ArrayList<ImageModel> death_card_maker_rip_designarrayList;
-    protected LinearLayout death_card_maker_rip_detail_form1;
-    protected LinearLayout death_card_maker_rip_detail_form2;
     protected LinearLayout death_card_maker_rip_detail_form3;
     protected TextView death_card_maker_rip_detaillset;
     protected GridView death_card_maker_rip_divanu_gridview;
@@ -116,7 +115,7 @@ public abstract class BaseCardMakerActivity extends AppCompatActivity {
     protected LinearLayout death_card_maker_rip_form1;
     protected LinearLayout death_card_maker_rip_form2;
     protected LinearLayout death_card_maker_rip_form3;
-    protected ImageView death_card_maker_rip_form3Gone;
+    protected TextView death_card_maker_rip_form3Gone;
     protected LinearLayout death_card_maker_rip_formis;
     protected ImageView death_card_maker_rip_framebg_img;
     protected GridView death_card_maker_rip_jjbg_gridview;
@@ -130,7 +129,6 @@ public abstract class BaseCardMakerActivity extends AppCompatActivity {
     protected LinearLayout death_card_maker_rip_place_layout;
     protected SharedPreferences death_card_maker_rip_prefs;
     protected ProgressDialog death_card_maker_rip_progress;
-    protected ProgressDialog death_card_maker_rip_progressDialog;
     protected RelativeLayout death_card_maker_rip_reletive;
     protected FrameLayout death_card_maker_rip_ring_frame;
     protected ImageView death_card_maker_rip_ring_img;
@@ -275,9 +273,6 @@ public abstract class BaseCardMakerActivity extends AppCompatActivity {
             PermissionHelper.requestStoragePermissions(this);
         }
 
-        new AdAdmob(this);
-        AdAdmob.FullscreenAd(this);
-
         this.death_card_maker_rip_progress = new ProgressDialog(this);
         this.death_card_maker_rip_taluko = (EditText) findViewById(R.id.mtal);
         this.death_card_maker_rip_save_image = (LinearLayout) findViewById(R.id.save);
@@ -293,14 +288,12 @@ public abstract class BaseCardMakerActivity extends AppCompatActivity {
         this.death_card_maker_rip_setnumber3 = (TextView) findViewById(R.id.setnumber3);
         this.death_card_maker_rip_setnumber4 = (TextView) findViewById(R.id.setnumber4);
         this.death_card_maker_rip_setnumber5 = (TextView) findViewById(R.id.setnumber5);
-        this.death_card_maker_rip_form3Gone = (ImageView) findViewById(R.id.form3Gone);
+        this.death_card_maker_rip_form3Gone = (TextView) findViewById(R.id.form3Gone);
         this.death_card_maker_rip_click_besnu = (TextView) findViewById(R.id.click_besnu);
         this.death_card_maker_rip_detaillset = (TextView) findViewById(R.id.detaillset);
         this.death_card_maker_rip_ttff1 = (FrameLayout) findViewById(R.id.ttff1);
         this.death_card_maker_rip_ttff2 = (FrameLayout) findViewById(R.id.ttff2);
         this.death_card_maker_rip_ttff3 = (LinearLayout) findViewById(R.id.ttff3);
-        this.death_card_maker_rip_detail_form1 = (LinearLayout) findViewById(R.id.detail_form1);
-        this.death_card_maker_rip_detail_form2 = (LinearLayout) findViewById(R.id.detail_form2);
         this.death_card_maker_rip_detail_form3 = (LinearLayout) findViewById(R.id.detail_form3);
         this.death_card_maker_rip_form1 = (LinearLayout) findViewById(R.id.form1);
         this.death_card_maker_rip_formis = (LinearLayout) findViewById(R.id.formis);
@@ -417,6 +410,12 @@ public abstract class BaseCardMakerActivity extends AppCompatActivity {
 
         // Populate GridView adapters
         populateGridViews();
+
+        // Set default preview texts with (...) placeholders
+        setDefaultPreviewTexts();
+
+        // Preload interstitial so it's ready when the user hits Save
+        AdManager.getInstance(this).loadInterstitialAd(this);
     }
 
     // ─── GridView population ────────────────────────────────────────────────
@@ -600,48 +599,17 @@ public abstract class BaseCardMakerActivity extends AppCompatActivity {
 
     // ─── Save & navigate ────────────────────────────────────────────────────
 
-    /** Saves the card and navigates to Save_Image_Activity. Pass a dialog to dismiss it first. */
+    /** Saves the card, shows an interstitial, then navigates to Save_Image_Activity. */
     protected void saveAndNavigate(Dialog dialogToDismiss) {
-        death_card_maker_rip_downloads();
-
-        final ProgressDialog pd = new ProgressDialog(this);
-        pd.setMax(100);
-        pd.setMessage("Loading...");
-        pd.setTitle("Image Save...");
-        pd.setProgressStyle(1);
-        pd.setCancelable(false);
-        pd.show();
-        this.death_card_maker_rip_progressDialog = pd;
-
         if (dialogToDismiss != null) dialogToDismiss.dismiss();
 
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message message) {
-                super.handleMessage(message);
-                pd.incrementProgressBy(10);
-            }
-        };
+        death_card_maker_rip_downloads();
 
-        new Thread(() -> {
-            while (pd.getProgress() <= pd.getMax()) {
-                try {
-                    Thread.sleep(200L);
-                    handler.sendMessage(handler.obtainMessage());
-                    if (pd.getProgress() == pd.getMax()) {
-                        pd.dismiss();
-                    }
-                } catch (Exception e) {
-                    return;
-                }
-            }
-        }).start();
-
-        new Handler().postDelayed(() -> {
+        AdManager.getInstance(this).showInterstitialAd(this, () -> {
             Intent intent = new Intent(this, Save_Image_Activity.class);
             intent.putExtra("img", death_card_maker_rip_name);
             startActivity(intent);
-        }, 2000L);
+        });
     }
 
     public void death_card_maker_rip_downloads() {

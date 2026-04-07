@@ -350,7 +350,7 @@
                                         android:layout_margin="4dp"
                                         android:background="@drawable/death_card_rip_post_ra_shpe"
                                         android:gravity="start|center_vertical"
-                                        android:hint="ठచిరునామా నమోదు చేయండి"
+                                        android:hint="చిరునామా నమోదు చేయండి"
                                         android:isScrollContainer="false"
                                         android:maxLength="240"
                                         android:padding="10dp"

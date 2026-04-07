@@ -22,6 +22,15 @@ public class Telugu_MainActivity extends BaseCardMakerActivity {
     @Override
     protected int getExitDialogLayoutId() { return R.layout.english_exit_dialog; }
 
+    @Override
+    protected void setDefaultPreviewTexts() {
+        death_card_maker_rip_Maintext.setText(
+                "అత్యంత దుఃఖంతో తెలియజేస్తున్నాము, ... నివాసి, మా ప్రియులైన ... ... గారు (వయస్సు ... సంవత్సరాలు), ... ... నాడు పరమపదించారు. వారి ఆత్మకు శాంతి ప్రసాదించమని భగవంతుని ప్రార్థిస్తున్నాము.");
+        death_card_maker_rip_click_besnu.setText(
+                "తేదీ: ... ... , ... ... గంటలకు.");
+        death_card_maker_rip_form3Gone.setText("... (...)");
+    }
+
     // ─── Form 1: Deceased person info ────────────────────────────────────────
 
     @Override
@@ -51,7 +60,6 @@ public class Telugu_MainActivity extends BaseCardMakerActivity {
             } else if (etDate.getText().toString().isEmpty()) {
                 etDate.setError(""); etDate.requestFocus();
             } else {
-                death_card_maker_rip_detail_form1.setVisibility(View.GONE);
                 death_card_maker_rip_Maintext.setText(
                         "అత్యంత దుఃఖంతో తెలియజేస్తున్నాము, " + etPlace.getText()
                                 + " నివాసి, మా ప్రియులైన " + etSurname.getText()
@@ -95,7 +103,6 @@ public class Telugu_MainActivity extends BaseCardMakerActivity {
             } else if (etTime.getText().toString().isEmpty()) {
                 etTime.setError(""); etTime.requestFocus();
             } else {
-                death_card_maker_rip_detail_form2.setVisibility(View.GONE);
                 death_card_maker_rip_click_besnu.setText(
                         "తేదీ: " + etDate.getText() + " " + tvDay.getText()
                                 + ", " + tvTimeOfDay.getText() + " " + etTime.getText() + " గంటలకు.");

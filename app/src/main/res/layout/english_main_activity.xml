@@ -430,21 +430,6 @@
                             android:layout_height="wrap_content">
 
                             <LinearLayout
-                                android:id="@+id/detail_form1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="3dp"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_69sdp"
-                                    android:layout_marginTop="4dp"
-                                    android:background="@drawable/death_card_rip_post_eng1" />
-                            </LinearLayout>
-
-                            <LinearLayout
                                 android:id="@+id/place_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -458,6 +443,7 @@
                                     android:layout_gravity="center_horizontal"
                                     android:layout_margin="2dp"
                                     android:gravity="center"
+                                    android:text="(...)"
                                     android:lineSpacingExtra="@dimen/_2sdp"
                                     android:textColor="@color/black"
                                     android:textSize="15dp" />
@@ -496,26 +482,6 @@
                                 android:layout_height="wrap_content">
 
                                 <LinearLayout
-                                    android:id="@+id/detail_form2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_56sdp"
-                                    android:layout_gravity="center"
-                                    android:layout_marginHorizontal="5dp"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginTop="4dp"
-                                    android:layout_marginRight="5dp"
-                                    android:layout_marginBottom="4dp"
-                                    android:gravity="center_horizontal"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="4dp"
-                                        android:background="@drawable/death_card_rip_post_eng2" />
-                                </LinearLayout>
-
-                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="5dp"
@@ -532,6 +498,7 @@
                                         android:layout_gravity="center"
                                         android:gravity="center"
                                         android:lineSpacingExtra="2dp"
+                                        android:text="(...)"
                                         android:textColor="@color/black"
                                         android:textSize="15dp" />
 
@@ -572,12 +539,15 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <ImageView
+                                <TextView
                                     android:id="@+id/form3Gone"
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_78sdp"
+                                    android:layout_height="wrap_content"
                                     android:layout_marginTop="4dp"
-                                    android:background="@drawable/death_card_rip_post_eng3" />
+                                    android:gravity="center"
+                                    android:text="(...)"
+                                    android:textColor="@color/black"
+                                    android:textSize="14dp" />
 
                                 <LinearLayout
                                     android:id="@+id/detail_form3"

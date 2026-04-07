@@ -1,6 +1,5 @@
 package com.ereader.ripcardmaker;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,8 +9,6 @@ import android.os.CountDownTimer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ereader.ripcardmaker.Activities.AppMainActivity;
-import com.google.android.gms.ads.MobileAds;
-
 
 public class Splash_Activity extends AppCompatActivity {
     String version;
@@ -27,18 +24,7 @@ public class Splash_Activity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-//        new Handler().postDelayed(() -> {
-//            Splash_Activity.this.startActivity(new Intent(Splash_Activity.this, AppMainActivity.class));
-//            Splash_Activity.this.finish();
-//        }, 2000L);
-
-        MobileAds.initialize(this);
-        Application application = getApplication();
-        ((MyApplication) application).loadAd(this);
-
         createTimer();
-
-
     }
 
     public void GetVersionCode(Context context) throws PackageManager.NameNotFoundException {
@@ -46,24 +32,23 @@ public class Splash_Activity extends AppCompatActivity {
     }
 
     private void createTimer() {
-        CountDownTimer countDownTimer = new CountDownTimer(6000, 1000) {
+        new CountDownTimer(2000, 1000) {
             @Override
-            public void onTick(long l) {
-
-            }
+            public void onTick(long l) {}
 
             @Override
             public void onFinish() {
-                Application application = getApplication();
-                ((MyApplication) application).showAdIfAvailable(Splash_Activity.this, () -> {
-                    Splash_Activity.this.startActivity(new Intent(Splash_Activity.this, AppMainActivity.class));
-                    Splash_Activity.this.finish();
-                });
+                // Show App Open ad then navigate; if not ready, navigate immediately
+                AdManager.getInstance(Splash_Activity.this).showAppOpenAd(
+                        Splash_Activity.this,
+                        () -> {
+                            startActivity(new Intent(Splash_Activity.this, AppMainActivity.class));
+                            finish();
+                        }
+                );
             }
-        };
-        countDownTimer.start();
+        }.start();
     }
-
 
     @Override
     public void onBackPressed() {

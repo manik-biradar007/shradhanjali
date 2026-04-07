@@ -21,8 +21,6 @@
         tools:ignore="SelectedPhotoAccess" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
-
 
     <application
         android:name="com.ereader.ripcardmaker.MyApplication"
@@ -35,12 +33,6 @@
         android:theme="@style/Theme.DeathCardMakerRIP"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <meta-data
-            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-            android:value="true" />
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_app_id"/>
         <activity
             android:name="com.ereader.ripcardmaker.Splash_Activity"
             android:exported="true">
@@ -60,6 +52,11 @@
         <activity android:name=".Activities.Telugu_MainActivity" />
         <activity android:name=".Activities.AppMainActivity" />
 
+
+        <!-- AdMob App ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

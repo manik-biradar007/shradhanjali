@@ -10,9 +10,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,10 +30,6 @@ public class Save_Image_Activity extends AppCompatActivity {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_save_image);
-
-        AdAdmob adAdmob = new AdAdmob(this);
-        adAdmob.BannerAd((RelativeLayout) findViewById(R.id.banner), this);
-        AdAdmob.FullscreenAd(this);
 
         this.results = (ImageView) findViewById(R.id.imgResultImage);
         String stringExtra = getIntent().getStringExtra("img");
@@ -62,49 +55,43 @@ public class Save_Image_Activity extends AppCompatActivity {
             Log.e(getString(R.string.mk), "catch: " + e);
         }
 
-        // Share button
-        findViewById(R.id.share).setOnClickListener(view -> {
-            Uri parse = Uri.parse(MediaStore.Images.Media.insertImage(
-                    getContentResolver(), death_card_maker_rip_bitmap, "RIPCard", null));
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("image/png");
-            intent.putExtra(Intent.EXTRA_STREAM, parse);
-            startActivity(Intent.createChooser(intent, "Share"));
-        });
+        // Preload ads for this screen
+        AdManager adManager = AdManager.getInstance(this);
+        adManager.loadRewardedInterstitialAd(this);
+        adManager.loadRewardedAd(this);
+        adManager.loadInterstitialAd(this);
 
-        // Download button
-        findViewById(R.id.download).setOnClickListener(view -> saveImageToGallery(death_card_maker_rip_bitmap));
+        // Download: show Rewarded Interstitial → save to gallery on reward
+        findViewById(R.id.download).setOnClickListener(view ->
+                adManager.showRewardedInterstitialAd(this,
+                        () -> saveImageToGallery(death_card_maker_rip_bitmap),
+                        null));
 
-        // Watch ad to unlock download/share
-        findViewById(R.id.payText).setOnClickListener(view ->
-                AdAdmob.FullscreenAdWithReward(this, this::unlockActions));
+        // Share: show Rewarded ad → share on reward
+        findViewById(R.id.share).setOnClickListener(view ->
+                adManager.showRewardedAd(this,
+                        this::performShare,
+                        null));
     }
 
-    /** Called when user has watched the reward ad — shows save/share controls. */
-    public void unlockActions() {
-        Toast.makeText(this, "Unlocked! You can now save & share.", Toast.LENGTH_SHORT).show();
-
-        LinearLayout paySection = findViewById(R.id.paymentSection);
-        paySection.setVisibility(View.GONE);
-
-        TextView imgPreviewText = findViewById(R.id.imgPreviewText);
-        imgPreviewText.setVisibility(View.GONE);
-
-        LinearLayout textAds = findViewById(R.id.textAds);
-        textAds.setVisibility(View.GONE);
-
-        LinearLayout actionSection = findViewById(R.id.actionSection);
-        actionSection.setVisibility(View.VISIBLE);
-    }
-
+    /** Create New — show interstitial then go to home screen. */
     public void createNew(View view) {
-        AdAdmob.FullscreenAd(this);
-        startActivity(new Intent(this, AppMainActivity.class));
+        AdManager.getInstance(this).showInterstitialAd(this,
+                () -> startActivity(new Intent(this, AppMainActivity.class)));
     }
 
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, AppMainActivity.class));
+    }
+
+    private void performShare() {
+        Uri parse = Uri.parse(MediaStore.Images.Media.insertImage(
+                getContentResolver(), death_card_maker_rip_bitmap, "RIPCard", null));
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/png");
+        intent.putExtra(Intent.EXTRA_STREAM, parse);
+        startActivity(Intent.createChooser(intent, "Share"));
     }
 
     private void saveImageToGallery(Bitmap bitmap) {

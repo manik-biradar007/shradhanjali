@@ -1,184 +1,46 @@
 package com.ereader.ripcardmaker;
 
-import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
-import android.os.Bundle;
-import android.widget.Toast;
+import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.DefaultLifecycleObserver;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ProcessLifecycleOwner;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.appopen.AppOpenAd;
+import java.util.Arrays;
 
-public class MyApplication extends Application implements Application.ActivityLifecycleCallbacks, DefaultLifecycleObserver {
-    private AppOpenAdManager appOpenAdManager;
-    private Activity currentActivity;
+public class MyApplication extends Application {
+
+    private static final String TAG = "AdMob";
+
+    // -----------------------------------------------------------------------
+    // ADD YOUR TEST DEVICE ID HERE (see instructions below)
+    // -----------------------------------------------------------------------
+    // 1. Run the app once with this list empty.
+    // 2. Open Logcat and filter by "Ads".
+    // 3. Look for a line like:
+    //      Use RequestConfiguration.Builder().setTestDeviceIds(
+    //          Arrays.asList("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"))
+    // 4. Copy that hex ID and paste it into the list below.
+    // -----------------------------------------------------------------------
+    private static final String[] TEST_DEVICE_IDS = {
+            "A5FACC5DFF2E1072EED8F315D6C1CD18"
+    };
 
     @Override
     public void onCreate() {
         super.onCreate();
-        this.registerActivityLifecycleCallbacks(this);
 
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
-        appOpenAdManager = new AppOpenAdManager();
-    }
-
-    @Override
-    public void onStart(@NonNull LifecycleOwner owner) {
-        DefaultLifecycleObserver.super.onStart(owner);
-        appOpenAdManager.showAdIfAvailable(currentActivity);
-    }
-
-    @Override
-    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onActivityStarted(@NonNull Activity activity) {
-        if (!appOpenAdManager.isShowingAd) {
-            currentActivity = activity;
-        }
-    }
-
-    @Override
-    public void onActivityResumed(@NonNull Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityPaused(@NonNull Activity activity) {
-
-    }
-
-    @Override
-    public void onActivityStopped(@NonNull Activity activity) {
-
-    }
-
-    @Override
-    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle bundle) {
-
-    }
-
-    @Override
-    public void onActivityDestroyed(@NonNull Activity activity) {
-
-    }
-
-    public void loadAd(@NonNull Activity activity) {
-        appOpenAdManager.loadAd(activity);
-    }
-
-    public interface OnShowAdCompleteListener {
-        void onAdShown();
-    }
-
-    public void showAdIfAvailable(Activity activity, OnShowAdCompleteListener onShowAdCompleteListener) {
-        appOpenAdManager.showAdIfAvailable(activity, onShowAdCompleteListener);
-    }
-
-    private static class AppOpenAdManager {
-        private static final String AD_ID = "/21849154601,22991801446/Ad.Plus-APP-APPOpen";
-        private AppOpenAd appOpenAd = null;
-        private boolean isLoadingAd = false;
-        private boolean isShowingAd = false;
-
-        public AppOpenAdManager() {
-
+        // Register test devices so real-looking test ads appear during development
+        if (TEST_DEVICE_IDS.length > 0) {
+            RequestConfiguration config = new RequestConfiguration.Builder()
+                    .setTestDeviceIds(Arrays.asList(TEST_DEVICE_IDS))
+                    .build();
+            MobileAds.setRequestConfiguration(config);
         }
 
-        private void loadAd(Context context) {
-            if (isLoadingAd || isAdAvailable()) {
-                return;
-            }
-
-            isLoadingAd = true;
-            AdRequest request = new AdRequest.Builder().build();
-            AppOpenAd.load(context, AD_ID, request, new AppOpenAd.AppOpenAdLoadCallback() {
-                @Override
-                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                    super.onAdFailedToLoad(loadAdError);
-                    isLoadingAd = false;
-//                    Toast.makeText(context, "There was an error while loading ad", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onAdLoaded(@NonNull AppOpenAd openAd) {
-                    super.onAdLoaded(openAd);
-                    appOpenAd = openAd;
-                    isLoadingAd = false;
-//                    Toast.makeText(context, "Ad loaded", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-        private boolean isAdAvailable() {
-            return appOpenAd != null;
-        }
-
-        private void showAdIfAvailable(Activity activity) {
-            showAdIfAvailable(activity, new OnShowAdCompleteListener() {
-                @Override
-                public void onAdShown() {
-
-                }
-            });
-        }
-
-        private void showAdIfAvailable(Activity activity, OnShowAdCompleteListener onShowAdCompleteListener) {
-            if (isShowingAd) {
-                return;
-            }
-
-            if (!isAdAvailable()) {
-                onShowAdCompleteListener.onAdShown();
-                return;
-            }
-
-            appOpenAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                @Override
-                public void onAdClicked() {
-                    super.onAdClicked();
-                }
-
-                @Override
-                public void onAdDismissedFullScreenContent() {
-                    super.onAdDismissedFullScreenContent();
-                    isShowingAd = false;
-                    onShowAdCompleteListener.onAdShown();
-                    appOpenAd = null;
-                }
-
-                @Override
-                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                    super.onAdFailedToShowFullScreenContent(adError);
-                    isShowingAd = false;
-                    onShowAdCompleteListener.onAdShown();
-                    appOpenAd = null;
-                }
-
-                @Override
-                public void onAdImpression() {
-                    super.onAdImpression();
-                }
-
-                @Override
-                public void onAdShowedFullScreenContent() {
-                    super.onAdShowedFullScreenContent();
-                }
-            });
-
-            isShowingAd = true;
-            appOpenAd.show(activity);
-        }
+        MobileAds.initialize(this, initializationStatus -> {
+            Log.d(TAG, "MobileAds initialized: " + initializationStatus.getAdapterStatusMap());
+            AdManager.getInstance(this).preloadAll(this);
+        });
     }
 }

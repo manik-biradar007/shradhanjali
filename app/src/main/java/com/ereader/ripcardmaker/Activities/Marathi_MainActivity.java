@@ -23,6 +23,15 @@ public class Marathi_MainActivity extends BaseCardMakerActivity {
     @Override
     protected int getExitDialogLayoutId() { return R.layout.english_exit_dialog; }
 
+    @Override
+    protected void setDefaultPreviewTexts() {
+        death_card_maker_rip_Maintext.setText(
+                "अत्यंत जड अंतःकरणाने कळविण्यात येते की, ... येथील रहिवासी, आमचे ... ... (वय ... वर्षे) यांचे दिनांक ..., ... रोजी दुःखद निधन झाले. परमेश्वर त्यांच्या आत्म्यास चिरशांती देवो, हीच ईश्वरचरणी प्रार्थना.");
+        death_card_maker_rip_click_besnu.setText(
+                "दिनांक ..., ... रोजी ... ... वाजता श्रद्धांजली सभा ठेवण्यात आली आहे.");
+        death_card_maker_rip_form3Gone.setText("... (...)");
+    }
+
     // ─── Form 1: Deceased person info ────────────────────────────────────────
 
     @Override
@@ -52,7 +61,6 @@ public class Marathi_MainActivity extends BaseCardMakerActivity {
             } else if (etDate.getText().toString().isEmpty()) {
                 etDate.setError(""); etDate.requestFocus();
             } else {
-                death_card_maker_rip_detail_form1.setVisibility(View.GONE);
                 death_card_maker_rip_Maintext.setText(
                         "अत्यंत जड अंतःकरणाने कळविण्यात येते की, " + etPlace.getText()
                                 + " येथील रहिवासी, आमचे " + etSurname.getText()
@@ -96,7 +104,6 @@ public class Marathi_MainActivity extends BaseCardMakerActivity {
             } else if (etTime.getText().toString().isEmpty()) {
                 etTime.setError(""); etTime.requestFocus();
             } else {
-                death_card_maker_rip_detail_form2.setVisibility(View.GONE);
                 death_card_maker_rip_click_besnu.setText(
                         "दिनांक " + etDate.getText() + ", " + tvDay.getText()
                                 + " रोजी " + tvTimeOfDay.getText() + " " + etTime.getText() + " वाजता"

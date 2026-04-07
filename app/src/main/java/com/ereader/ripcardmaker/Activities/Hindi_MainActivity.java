@@ -24,6 +24,15 @@ public class Hindi_MainActivity extends BaseCardMakerActivity {
     @Override
     protected int getExitDialogLayoutId() { return R.layout.hindi_exit_dialog; }
 
+    @Override
+    protected void setDefaultPreviewTexts() {
+        death_card_maker_rip_Maintext.setText(
+                "अत्यंत दुःख के साथ सूचित करना पड़ रहा है कि ग्राम ... निवासी हमारे ... ... (आयु ... वर्ष) दिनांक ..., ... को स्वर्गवासी हो गए हैं। परमात्मा उनकी पुण्य आत्मा को शांति प्रदान करे, यही ईश्वर से प्रार्थना है।");
+        death_card_maker_rip_click_besnu.setText(
+                "दिनांक ..., ... को ... ... बजे से ... बजे तक श्रद्धांजलि सभा रखी गई है।");
+        death_card_maker_rip_form3Gone.setText("... (...)");
+    }
+
     // ─── Form 1: Deceased person info ────────────────────────────────────────
 
     @Override
@@ -53,7 +62,6 @@ public class Hindi_MainActivity extends BaseCardMakerActivity {
             } else if (etDate.getText().toString().isEmpty()) {
                 etDate.setError(""); etDate.requestFocus();
             } else {
-                death_card_maker_rip_detail_form1.setVisibility(View.GONE);
                 death_card_maker_rip_Maintext.setText(
                         "अत्यंत दुःख के साथ सूचित करना पड़ रहा है कि ग्राम " + etPlace.getText()
                                 + " निवासी हमारे " + etSurname.getText() + " " + etName.getText()
@@ -103,7 +111,6 @@ public class Hindi_MainActivity extends BaseCardMakerActivity {
             } else if (etTime2.getText().toString().isEmpty()) {
                 etTime2.setError(""); etTime2.requestFocus();
             } else {
-                death_card_maker_rip_detail_form2.setVisibility(View.GONE);
                 if (death_card_maker_rip_counter != 0) {
                     death_card_maker_rip_click_besnu.setText(
                             "दिनांक " + etDate.getText() + ", " + tvDay.getText()

@@ -43,5 +43,11 @@
     <string name="var9">મંગળવારે</string>
 
 <!--    ads-->
-    <string name="admob_app_id">ca-app-pub-9807820378544612~4523985471</string>
+    <string name="admob_app_id">ca-app-pub-9127779292115408~8030479046</string>
+    <string name="admob_app_open_ad_unit_id">ca-app-pub-9127779292115408/1049566902</string>
+    <string name="admob_banner_ad_unit_id">ca-app-pub-9127779292115408/8408535374</string>
+    <string name="admob_interstitial_ad_unit_id">ca-app-pub-9127779292115408/4890144534</string>
+    <string name="admob_rewarded_ad_unit_id">ca-app-pub-9127779292115408/1102111138</string>
+    <string name="admob_rewarded_interstitial_ad_unit_id">ca-app-pub-9127779292115408/5119978278</string>
+    <string name="admob_native_advanced_ad_unit_id"></string>
 </resources>

@@ -3,7 +3,6 @@ package com.ereader.ripcardmaker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,48 +15,46 @@ import com.ereader.ripcardmaker.Activities.Telugu_MainActivity;
 
 public class Main_Activity extends AppCompatActivity {
 
-    String strpos;
-
-    @Override 
+    @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.activity_main);
-
-//        AdAdmob adAdmob = new AdAdmob( this);
-//        adAdmob.BannerAd((RelativeLayout) findViewById(R.id.banner), this);
-        AdAdmob.FullscreenAd(this);
-
+        // Preload interstitial so it's ready when user picks a language
+        AdManager.getInstance(this).loadInterstitialAd(this);
     }
 
-
-    
-    @Override 
+    @Override
     public void onDestroy() {
-        super.onDestroy();    }
+        super.onDestroy();
+    }
+
+    /** Show an interstitial then navigate to the chosen language activity. */
+    private void navigateWithAd(Class<?> target) {
+        AdManager.getInstance(this).showInterstitialAd(this,
+                () -> startActivity(new Intent(this, target)));
+    }
 
     public void hindi(View view) {
-        this.strpos = "hindi";
-            startActivity(new Intent(this, Hindi_MainActivity.class));
+        navigateWithAd(Hindi_MainActivity.class);
     }
 
     public void gujarati(View view) {
-        this.strpos = "gujarati";
-            startActivity(new Intent(this, Gujrati_MainActivity.class));
+        navigateWithAd(Gujrati_MainActivity.class);
     }
 
     public void english(View view) {
-        this.strpos = "english";
-            startActivity(new Intent(this, English_MainActivity.class));
+        navigateWithAd(English_MainActivity.class);
     }
+
     public void marathi(View view) {
-        this.strpos = "marathi";
-        startActivity(new Intent(this, Marathi_MainActivity.class));
+        navigateWithAd(Marathi_MainActivity.class);
     }
+
     public void telugu(View view) {
-        this.strpos = "telugu";
-        startActivity(new Intent(this, Telugu_MainActivity.class));
+        navigateWithAd(Telugu_MainActivity.class);
     }
-    @Override 
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
     }

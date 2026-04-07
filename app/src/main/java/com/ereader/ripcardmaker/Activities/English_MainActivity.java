@@ -29,6 +29,15 @@ public class English_MainActivity extends BaseCardMakerActivity {
         return R.layout.english_exit_dialog;
     }
 
+    @Override
+    protected void setDefaultPreviewTexts() {
+        death_card_maker_rip_Maintext.setText(
+                "It is with profound grief that we announce the passing of ... (...), a resident of ..., who left us on ... (...). May Almighty God grant their soul eternal peace.");
+        death_card_maker_rip_click_besnu.setText(
+                "The condolence gathering will be held on ... (...), ... from ... to ....");
+        death_card_maker_rip_form3Gone.setText("... (...)");
+    }
+
     // ─── Form 1: Deceased person info ───────────────────────────────────────
 
     @Override
@@ -58,7 +67,6 @@ public class English_MainActivity extends BaseCardMakerActivity {
             } else if (etDate.getText().toString().isEmpty()) {
                 etDate.setError(""); etDate.requestFocus();
             } else {
-                death_card_maker_rip_detail_form1.setVisibility(android.view.View.GONE);
                 death_card_maker_rip_Maintext.setText(
                         "It is with profound grief that we announce the passing of "
                                 + etSurname.getText() + " " + etName.getText()
@@ -109,7 +117,6 @@ public class English_MainActivity extends BaseCardMakerActivity {
             } else if (tvTime2.getText().toString().isEmpty()) {
                 tvTime2.setError(""); tvTime2.requestFocus();
             } else {
-                death_card_maker_rip_detail_form2.setVisibility(android.view.View.GONE);
                 if (death_card_maker_rip_counter != 0) {
                     death_card_maker_rip_click_besnu.setText(
                             "The condolence gathering will be held on "

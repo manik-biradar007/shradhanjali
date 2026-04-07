@@ -20,7 +20,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.ereader.ripcardmaker.AdAdmob;
 import com.ereader.ripcardmaker.Main_Activity;
 import com.ereader.ripcardmaker.R;
 import com.ereader.ripcardmaker.utils.PermissionHelper;
