@@ -1,10 +1,47 @@
-*.iml
-.gradle
+# Gradle
+.gradle/
+build/
+/app/build/
+/captures
+
+# Local config (SDK path, signing secrets)
 /local.properties
+*.keystore
+*.jks
+keystore.properties
+
+# Release output
+app/release/
+*.apk
+*.aab
+*.ap_
+output-metadata.json
+
+# Android Studio / IntelliJ
+*.iml
 /.idea/workspace.xml
 /.idea/libraries
-.DS_Store
-/build
-/captures
+/.idea/caches
+/.idea/deploymentTargetSelector.xml
+/.idea/appInsightsSettings.xml
+/.idea/AndroidProjectSystem.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/tasks.xml
+/.idea/dictionaries
+/.idea/shelf
+
+# Native builds
 .externalNativeBuild
-app/release
+.cxx/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tool settings (local)
+.claude/settings.local.json
+.continue/
