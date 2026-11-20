@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import com.ereader.ripcardmaker.ads.AdManager
 import com.ereader.ripcardmaker.ui.AppNavigation
 import com.ereader.ripcardmaker.ui.theme.ShradhanjaliTheme
 import kotlinx.coroutines.launch
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
     private var loading = true
+    private var stoppedAt = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splash = installSplashScreen()
@@ -25,9 +27,9 @@ class MainActivity : ComponentActivity() {
         val coldStart = savedInstanceState == null
         lifecycleScope.launch {
             app.drafts.load()
-            val previousLaunches = if (coldStart) app.prefs.registerLaunch() else 1
+            if (coldStart) app.prefs.registerLaunch()
             loading = false
-            if (coldStart) startAds(firstLaunch = previousLaunches == 0)
+            if (coldStart) startAds()
         }
 
         setContent {
@@ -37,14 +39,13 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    /** Consent first; then ads. The app open ad only shows if it is ready right after start-up. */
-    private fun startAds(firstLaunch: Boolean) {
+    /** Consent first; then ads. The app open ad shows if it is ready soon after start-up. */
+    private fun startAds() {
         val startedAt = SystemClock.elapsedRealtime()
         if (app.consent.canRequestAds) app.ads.initialize()
         app.consent.gather(this) { canRequestAds ->
             if (!canRequestAds) return@gather
             app.ads.initialize {
-                if (firstLaunch) return@initialize
                 app.ads.loadAppOpen {
                     val fresh = SystemClock.elapsedRealtime() - startedAt < APP_OPEN_WINDOW_MS
                     if (fresh && lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
@@ -55,12 +56,23 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        val awayFor = if (stoppedAt == 0L) 0L else SystemClock.elapsedRealtime() - stoppedAt
+        stoppedAt = 0L
+        // Coming back after a while (not from our own ad, share sheet or picker): show an app open ad.
+        if (!app.ads.consumeSkipResumeAd() && awayFor >= AdManager.RESUME_AD_AFTER_MS && app.ads.isReady) {
+            app.ads.showAppOpen(this)
+        }
+    }
+
     override fun onStop() {
         super.onStop()
+        stoppedAt = SystemClock.elapsedRealtime()
         app.ads.cancelPendingAppOpen()
     }
 
     private companion object {
-        const val APP_OPEN_WINDOW_MS = 5_000L
+        const val APP_OPEN_WINDOW_MS = 8_000L
     }
 }

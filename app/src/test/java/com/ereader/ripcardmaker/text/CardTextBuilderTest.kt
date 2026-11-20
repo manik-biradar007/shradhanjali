@@ -33,9 +33,7 @@ class CardTextBuilderTest {
         language = language,
         deceased = Deceased(
             gender = gender,
-            firstName = if (gender == Gender.MALE) "Ramesh" else "Sunita",
-            middleName = if (full) "Kumar" else "",
-            surname = if (full) "Patil" else "",
+            name = if (gender == Gender.MALE) { if (full) "Ramesh Kumar Patil" else "Ramesh" } else { if (full) "Sunita Kumar Patil" else "Sunita" },
             age = if (full) "72" else "",
             place = if (full) "Pune" else "",
             dateOfDeath = if (full) monday else null,
@@ -106,7 +104,7 @@ class CardTextBuilderTest {
     }
 
     @Test fun empty_name_shows_placeholder() {
-        val d = draft(CardLanguage.HINDI, Gender.MALE).let { it.copy(deceased = it.deceased.copy(firstName = "", middleName = "", surname = "")) }
+        val d = draft(CardLanguage.HINDI, Gender.MALE).let { it.copy(deceased = it.deceased.copy(name = "")) }
         val c = CardTextBuilder.build(d)
         assertEquals("……", c.name)
         assertFalse(c.message.contains(" जी"))
@@ -154,6 +152,30 @@ class CardTextBuilderTest {
     }
 
     /** Writes example output for every language and gender, for human review. */
+    @Test fun new_languages_build_complete_gendered_text() {
+        val expected = mapOf(
+            CardLanguage.KANNADA to Triple("ದಿ. ಶ್ರೀ", "ದಿ. ಶ್ರೀಮತಿ", "ನಿಧನರಾದರು"),
+            CardLanguage.TAMIL to Triple("அமரர் திரு.", "அமரர் திருமதி", "இறைவனடி சேர்ந்தார்கள்"),
+            CardLanguage.BENGALI to Triple("স্বর্গীয়", "স্বর্গীয়া", "পরলোকগমন করেছেন"),
+            CardLanguage.PUNJABI to Triple("ਸਵ. ਸ੍ਰੀ", "ਸਵ. ਸ੍ਰੀਮਤੀ", "ਅਕਾਲ ਚਲਾਣਾ ਕਰ ਗਏ ਹਨ"),
+        )
+        expected.forEach { (lang, e) ->
+            val (maleHon, femaleHon, verb) = e
+            val m = CardTextBuilder.build(draft(lang, Gender.MALE))
+            val f = CardTextBuilder.build(draft(lang, Gender.FEMALE))
+            assertTrue("$lang male name", m.name.startsWith("$maleHon "))
+            assertTrue("$lang female name", f.name.startsWith("$femaleHon "))
+            assertTrue("$lang verb", m.message.contains(verb) && f.message.contains(verb))
+            assertTrue("$lang place/age", m.message.contains("Pune") && m.message.contains("72"))
+            assertTrue("$lang meeting", m.meetingLines.first().isNotBlank())
+            assertFalse("$lang no dots", m.message.contains("..."))
+            // Missing fields are dropped, not printed as gaps.
+            val bare = CardTextBuilder.build(draft(lang, Gender.MALE, full = false))
+            assertFalse("$lang bare place", bare.message.contains("Pune"))
+            assertFalse("$lang double space", bare.message.contains("  "))
+        }
+    }
+
     @Test fun write_samples() {
         val out = StringBuilder()
         for (lang in CardLanguage.entries) for (g in Gender.entries) for (type in listOf(MeetingType.IN_PERSON, MeetingType.TELEPHONIC)) {

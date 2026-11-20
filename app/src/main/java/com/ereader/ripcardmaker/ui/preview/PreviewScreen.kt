@@ -60,6 +60,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import com.ereader.ripcardmaker.ads.BannerAd
 import com.ereader.ripcardmaker.app
 import com.ereader.ripcardmaker.export.CardExporter
 import com.ereader.ripcardmaker.model.CardDraft
@@ -88,6 +89,9 @@ fun PreviewScreen(draftId: String, onBack: () -> Unit, onDone: () -> Unit) {
 
     var busy by remember { mutableStateOf(false) }
     var askUnlock by remember { mutableStateOf(false) }
+    var adBusy by remember { mutableStateOf(false) }
+    /** Pending action waiting for the user to accept a rewarded ad: "save", or a share target ("" = chooser). */
+    var gate by remember { mutableStateOf<String?>(null) }
 
     fun update(t: (CardDraft) -> CardDraft) {
         app.appScope.launch {
@@ -126,6 +130,7 @@ fun PreviewScreen(draftId: String, onBack: () -> Unit, onDone: () -> Unit) {
                 return@launch
             }
             try {
+                app.ads.leavingAppOnPurpose()
                 context.startActivity(if (targetPackage == null) Intent.createChooser(intent, ui.share) else intent)
                 update { it.copy(lastExportedAt = System.currentTimeMillis()) }
             } catch (e: ActivityNotFoundException) {
@@ -136,10 +141,15 @@ fun PreviewScreen(draftId: String, onBack: () -> Unit, onDone: () -> Unit) {
 
     fun finish() = app.ads.maybeShowInterstitial(activity) { onDone() }
 
+    /** Save and share are unlocked by a rewarded ad the user agrees to watch (old app behaviour). */
+    fun requestSave() { if (app.ads.isReady) gate = GATE_SAVE else onSave() }
+    fun requestShare(target: String?) { if (app.ads.isReady) gate = target.orEmpty() else share(target) }
+
     BackHandler { onBack() }
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
+        bottomBar = { BannerAd() },
         topBar = {
             TopAppBar(
                 title = { Text(ui.preview) },
@@ -166,7 +176,7 @@ fun PreviewScreen(draftId: String, onBack: () -> Unit, onDone: () -> Unit) {
         ) {
             Box(Modifier.weight(1f).fillMaxWidth().padding(vertical = 8.dp), contentAlignment = Alignment.Center) {
                 CardPreview(draft = draft, editorMode = false)
-                if (busy) CircularProgressIndicator()
+                if (busy || adBusy) CircularProgressIndicator()
             }
 
             SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
@@ -212,20 +222,20 @@ fun PreviewScreen(draftId: String, onBack: () -> Unit, onDone: () -> Unit) {
             }
 
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
-                Button(onClick = ::onSave, enabled = ready && !busy, modifier = Modifier.weight(1f)) {
+                Button(onClick = ::requestSave, enabled = ready && !busy && !adBusy, modifier = Modifier.weight(1f)) {
                     Icon(Icons.Outlined.Download, null)
                     Spacer(Modifier.width(6.dp))
                     Text(ui.saveToGallery, maxLines = 1)
                 }
-                FilledTonalButton(onClick = { share(null) }, enabled = ready && !busy, modifier = Modifier.weight(1f)) {
+                FilledTonalButton(onClick = { requestShare(null) }, enabled = ready && !busy && !adBusy, modifier = Modifier.weight(1f)) {
                     Icon(Icons.Outlined.Share, null)
                     Spacer(Modifier.width(6.dp))
                     Text(ui.share, maxLines = 1)
                 }
             }
             OutlinedButton(
-                onClick = { share(CardExporter.WHATSAPP) },
-                enabled = ready && !busy,
+                onClick = { requestShare(CardExporter.WHATSAPP) },
+                enabled = ready && !busy && !adBusy,
                 modifier = Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 16.dp),
             ) {
                 Icon(Icons.AutoMirrored.Outlined.Chat, null)
@@ -244,12 +254,40 @@ fun PreviewScreen(draftId: String, onBack: () -> Unit, onDone: () -> Unit) {
             confirmButton = {
                 TextButton(onClick = {
                     askUnlock = false
-                    app.ads.showRewarded(activity) {
-                        update { it.copy(statusUnlocked = true, format = CardFormat.STATUS) }
-                    }
+                    adBusy = true
+                    app.ads.showRewarded(
+                        activity,
+                        onReward = { update { it.copy(statusUnlocked = true, format = CardFormat.STATUS) } },
+                        onFinished = { adBusy = false },
+                    )
                 }) { Text(ui.watchAd) }
             },
             dismissButton = { TextButton(onClick = { askUnlock = false }) { Text(ui.cancel) } },
         )
     }
+
+    gate?.let { action ->
+        val isSave = action == GATE_SAVE
+        AlertDialog(
+            onDismissRequest = { gate = null },
+            icon = { Icon(if (isSave) Icons.Outlined.Download else Icons.Outlined.Share, null) },
+            title = { Text(if (isSave) ui.saveToGallery else ui.share) },
+            text = { Text(if (isSave) ui.adGateSave else ui.adGateShare) },
+            confirmButton = {
+                TextButton(onClick = {
+                    gate = null
+                    adBusy = true
+                    if (isSave) {
+                        app.ads.showRewardedInterstitial(activity, onReward = ::onSave, onFinished = { adBusy = false })
+                    } else {
+                        val target = action.ifEmpty { null }
+                        app.ads.showRewarded(activity, onReward = { share(target) }, onFinished = { adBusy = false })
+                    }
+                }) { Text(ui.watchAd) }
+            },
+            dismissButton = { TextButton(onClick = { gate = null }) { Text(ui.cancel) } },
+        )
+    }
 }
+
+private const val GATE_SAVE = "\u0000save"

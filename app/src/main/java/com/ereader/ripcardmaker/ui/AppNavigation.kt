@@ -1,11 +1,14 @@
 package com.ereader.ripcardmaker.ui
 
+import android.app.Activity
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.ereader.ripcardmaker.app
 import com.ereader.ripcardmaker.ui.editor.EditorScreen
 import com.ereader.ripcardmaker.ui.home.HomeScreen
 import com.ereader.ripcardmaker.ui.preview.PreviewScreen
@@ -21,16 +24,18 @@ private object Routes {
 @Composable
 fun AppNavigation() {
     val nav = rememberNavController()
+    val activity = LocalContext.current as Activity
+    val ads = activity.app.ads
     NavHost(navController = nav, startDestination = Routes.HOME) {
         composable(Routes.HOME) {
-            HomeScreen(onOpenCard = { id -> nav.navigate(Routes.editor(id)) })
+            HomeScreen(onOpenCard = { id -> ads.maybeShowInterstitial(activity) { nav.navigate(Routes.editor(id)) } })
         }
         composable(Routes.EDITOR, arguments = listOf(navArgument("id") { type = NavType.StringType })) { entry ->
             val id = entry.arguments?.getString("id").orEmpty()
             EditorScreen(
                 draftId = id,
                 onBack = { nav.popBackStack() },
-                onPreview = { nav.navigate(Routes.preview(id)) },
+                onPreview = { ads.maybeShowInterstitial(activity) { nav.navigate(Routes.preview(id)) } },
             )
         }
         composable(Routes.PREVIEW, arguments = listOf(navArgument("id") { type = NavType.StringType })) { entry ->

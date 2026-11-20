@@ -9,7 +9,11 @@ enum class CardLanguage(val code: String, val nativeName: String, val englishNam
     HINDI("hi", "हिन्दी", "Hindi"),
     MARATHI("mr", "मराठी", "Marathi"),
     GUJARATI("gu", "ગુજરાતી", "Gujarati"),
-    TELUGU("te", "తెలుగు", "Telugu");
+    TELUGU("te", "తెలుగు", "Telugu"),
+    KANNADA("kn", "ಕನ್ನಡ", "Kannada"),
+    TAMIL("ta", "தமிழ்", "Tamil"),
+    BENGALI("bn", "বাংলা", "Bengali"),
+    PUNJABI("pa", "ਪੰਜਾਬੀ", "Punjabi");
 
     companion object {
         fun fromCode(code: String?): CardLanguage? = entries.firstOrNull { it.code == code }
@@ -36,17 +40,15 @@ data class Deceased(
     val gender: Gender = Gender.MALE,
     /** null = use the language's default honorific for [gender]; "" = no honorific; otherwise the chosen text. */
     val honorific: String? = null,
-    val firstName: String = "",
-    /** Father's or husband's name, as commonly written between first name and surname. */
-    val middleName: String = "",
-    val surname: String = "",
+    /** Full name as the family writes it, e.g. "Ramesh Kumar Patil". */
+    val name: String = "",
     val age: String = "",
     val place: String = "",
     /** Date of death as epoch day (java.time.LocalDate.toEpochDay), or null if not set. */
     val dateOfDeath: Long? = null,
 ) {
     val fullName: String
-        get() = listOf(firstName, middleName, surname).map { it.trim() }.filter { it.isNotEmpty() }.joinToString(" ")
+        get() = name.trim().replace(Regex("\\s+"), " ")
 }
 
 @Serializable
@@ -81,14 +83,14 @@ data class Photo(
 
 @Serializable
 data class CardStyle(
-    val frameId: String? = "k41",
+    val frameId: String? = "k3",
     /** ARGB tint for the frame line-art, or null for its original colours. */
-    val frameTint: Int? = null,
+    val frameTint: Int? = 0xFF8B5A00.toInt(),
     val backgroundColor: Int = 0xFFFDF8EE.toInt(),
     val patternId: String? = "backh2",
     val ringId: String? = "r23",
     val diyaId: String? = "d9",
-    val textColor: Int = 0xFF1F1F1F.toInt(),
+    val textColor: Int = 0xFF3E2723.toInt(),
     val accentColor: Int = 0xFF7A1F1F.toInt(),
     /** User text size multiplier. Auto-fit may shrink further so everything fits. */
     val textScale: Float = 1f,

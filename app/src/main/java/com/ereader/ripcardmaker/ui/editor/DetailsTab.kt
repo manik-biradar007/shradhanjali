@@ -103,9 +103,7 @@ private fun DeceasedSection(d: Deceased, pack: LanguagePack, fmt: Fmt, update: (
         }
 
         VSpace(8.dp)
-        NameField(ui.firstName, d.firstName) { v -> update { it.copy(firstName = v) } }
-        NameField(ui.middleName, d.middleName) { v -> update { it.copy(middleName = v) } }
-        NameField(ui.surname, d.surname) { v -> update { it.copy(surname = v) } }
+        NameField(ui.fullName, d.name) { v -> update { it.copy(name = v) } }
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedTextField(

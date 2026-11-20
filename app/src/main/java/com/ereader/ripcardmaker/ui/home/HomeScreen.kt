@@ -6,7 +6,21 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import com.ereader.ripcardmaker.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -126,17 +140,33 @@ fun HomeScreen(onOpenCard: (String) -> Unit) {
             }
 
             item(span = { GridItemSpan(maxLineSpan) }) {
-                Text(ui.myCards, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 8.dp))
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 8.dp)) {
+                    Box(
+                        Modifier
+                            .size(width = 4.dp, height = 20.dp)
+                            .clip(RoundedCornerShape(2.dp))
+                            .background(MaterialTheme.colorScheme.secondary)
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text(ui.myCards, style = MaterialTheme.typography.titleMedium)
+                    if (drafts.isNotEmpty()) {
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            drafts.size.toString(),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(50))
+                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                .padding(horizontal = 8.dp, vertical = 2.dp),
+                        )
+                    }
+                }
             }
 
             if (drafts.isEmpty()) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
-                    Text(
-                        ui.noCardsYet,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(vertical = 24.dp),
-                    )
+                    EmptyCards(ui.noCardsYet)
                 }
             } else {
                 items(drafts, key = { it.id }) { draft ->
@@ -171,42 +201,130 @@ fun HomeScreen(onOpenCard: (String) -> Unit) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun HomeHeader(ui: UiStrings, language: CardLanguage, onLanguage: (CardLanguage) -> Unit, onCreate: () -> Unit) {
-    Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        Column(Modifier.padding(20.dp)) {
-            Text(ui.tagline, style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onPrimaryContainer)
-            Spacer(Modifier.height(16.dp))
-            Text(ui.cardLanguage, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onPrimaryContainer)
-            Spacer(Modifier.height(4.dp))
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                CardLanguage.entries.forEach { lang ->
-                    FilterChip(
-                        selected = lang == language,
-                        onClick = { onLanguage(lang) },
-                        label = { Text(lang.nativeName) },
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        // Warm sandalwood → saffron banner with the diya.
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(24.dp))
+                .background(Brush.linearGradient(listOf(Color(0xFF5A3620), Color(0xFF8A5428), Color(0xFFC77A1C))))
+                .padding(20.dp)
+        ) {
+            Column {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        ui.tagline,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White,
+                        modifier = Modifier.weight(1f),
                     )
+                    Spacer(Modifier.width(12.dp))
+                    Box(
+                        Modifier
+                            .size(76.dp)
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.16f)),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Image(
+                            painterResource(R.drawable.death_card_rip_post_d9),
+                            contentDescription = null,
+                            modifier = Modifier.size(56.dp),
+                        )
+                    }
+                }
+                Spacer(Modifier.height(18.dp))
+                Button(
+                    onClick = onCreate,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFF4E6), contentColor = Color(0xFF5A3620)),
+                    modifier = Modifier.fillMaxWidth().height(52.dp),
+                ) {
+                    Icon(Icons.Filled.Add, contentDescription = null)
+                    Spacer(Modifier.size(8.dp))
+                    Text(ui.createCard, style = MaterialTheme.typography.titleSmall)
                 }
             }
-            Spacer(Modifier.height(16.dp))
-            Button(onClick = onCreate, modifier = Modifier.fillMaxWidth().height(52.dp)) {
-                Icon(Icons.Filled.Add, contentDescription = null)
-                Spacer(Modifier.size(8.dp))
-                Text(ui.createCard)
+        }
+
+        // Language picker.
+        Card(
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
+            shape = RoundedCornerShape(20.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Column(Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
+                Text(ui.cardLanguage, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(Modifier.height(6.dp))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    CardLanguage.entries.forEach { lang ->
+                        FilterChip(
+                            selected = lang == language,
+                            onClick = { onLanguage(lang) },
+                            label = { Text(lang.nativeName) },
+                            colors = FilterChipDefaults.filterChipColors(
+                                containerColor = MaterialTheme.colorScheme.surface,
+                                selectedContainerColor = MaterialTheme.colorScheme.secondary,
+                                selectedLabelColor = MaterialTheme.colorScheme.onSecondary,
+                            ),
+                        )
+                    }
+                }
             }
         }
     }
+}
+
+@Composable
+private fun EmptyCards(text: String) {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(
+            Modifier.fillMaxWidth().padding(vertical = 28.dp, horizontal = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Image(
+                painterResource(R.drawable.death_card_rip_post_r23),
+                contentDescription = null,
+                modifier = Modifier.size(96.dp),
+            )
+            Spacer(Modifier.height(12.dp))
+            Text(
+                text,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+        }
+    }
+}
+
+/** A muted colour per language, used to tell saved cards apart at a glance. */
+private fun languageAccent(language: CardLanguage): Color = when (language) {
+    CardLanguage.ENGLISH -> Color(0xFF7D5A4F)
+    CardLanguage.HINDI -> Color(0xFFC0701A)
+    CardLanguage.MARATHI -> Color(0xFFB04E36)
+    CardLanguage.GUJARATI -> Color(0xFF6F7F30)
+    CardLanguage.TELUGU -> Color(0xFF2F7A73)
+    CardLanguage.KANNADA -> Color(0xFFA67A1C)
+    CardLanguage.TAMIL -> Color(0xFF8A3A5C)
+    CardLanguage.BENGALI -> Color(0xFF2E6590)
+    CardLanguage.PUNJABI -> Color(0xFF4F5BAE)
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun DraftTile(draft: CardDraft, ui: UiStrings, onOpen: () -> Unit, onDuplicate: () -> Unit, onDelete: () -> Unit) {
     var menu by remember { mutableStateOf(false) }
+    val accent = languageAccent(draft.language)
     Card(
         modifier = Modifier.fillMaxWidth().combinedClickable(onClick = onOpen, onLongClick = { menu = true }),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        shape = RoundedCornerShape(18.dp),
+        colors = CardDefaults.cardColors(containerColor = accent.copy(alpha = 0.08f).compositeOver(MaterialTheme.colorScheme.surface)),
     ) {
+        Box(Modifier.fillMaxWidth().height(5.dp).background(accent))
         CardThumbnail(draft, Modifier.fillMaxWidth().padding(8.dp))
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(start = 12.dp, bottom = 4.dp)) {
             Column(Modifier.weight(1f)) {
@@ -216,13 +334,27 @@ private fun DraftTile(draft: CardDraft, ui: UiStrings, onOpen: () -> Unit, onDup
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                Text(
-                    "${draft.language.nativeName} · ${DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(draft.updatedAt))}",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                Spacer(Modifier.height(4.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        draft.language.nativeName,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = accent,
+                        maxLines = 1,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(50))
+                            .background(accent.copy(alpha = 0.14f))
+                            .padding(horizontal = 8.dp, vertical = 2.dp),
+                    )
+                    Spacer(Modifier.width(6.dp))
+                    Text(
+                        DateFormat.getDateInstance(DateFormat.SHORT).format(Date(draft.updatedAt)),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
             }
             Box {
                 IconButton(onClick = { menu = true }) { Icon(Icons.Filled.MoreVert, contentDescription = null) }
@@ -254,11 +386,13 @@ private fun HomeMenu(ui: UiStrings, expanded: Boolean, onDismiss: () -> Unit, co
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, "${ui.shareAppMessage}\n$link")
             }
+            context.app.ads.leavingAppOnPurpose()
             context.startActivity(Intent.createChooser(send, ui.shareApp))
         })
         DropdownMenuItem(text = { Text(ui.rateApp) }, leadingIcon = { Icon(Icons.Outlined.StarRate, null) }, onClick = {
             onDismiss()
             try {
+                context.app.ads.leavingAppOnPurpose()
                 context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context.packageName}")))
             } catch (e: ActivityNotFoundException) {
                 openUrl(context, "https://play.google.com/store/apps/details?id=${context.packageName}")
@@ -289,6 +423,7 @@ private fun PolicyItem(label: String, icon: androidx.compose.ui.graphics.vector.
 
 private fun openUrl(context: Context, url: String) {
     try {
+        context.app.ads.leavingAppOnPurpose()
         context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     } catch (_: ActivityNotFoundException) {
     }

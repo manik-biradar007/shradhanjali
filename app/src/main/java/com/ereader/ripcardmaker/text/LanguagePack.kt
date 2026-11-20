@@ -169,6 +169,7 @@ object CardTextBuilder {
 object LanguagePacks {
     private val packs: Map<CardLanguage, LanguagePack> = listOf(
         EnglishPack, HindiPack, MarathiPack, GujaratiPack, TeluguPack,
+        KannadaPack, TamilPack, BengaliPack, PunjabiPack,
     ).associateBy { it.language }
 
     fun of(language: CardLanguage): LanguagePack = packs.getValue(language)

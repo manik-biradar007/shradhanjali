@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.ereader.ripcardmaker.app
 import com.ereader.ripcardmaker.model.CardDraft
 import com.ereader.ripcardmaker.model.Photo
 import com.ereader.ripcardmaker.render.CardRenderer
@@ -60,7 +61,8 @@ fun PhotoTab(
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         if (uri != null) onPick(uri)
     }
-    val pick = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }
+    val ads = LocalContext.current.app.ads
+    val pick = { ads.leavingAppOnPurpose(); picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }
     val hasPhoto = draft.photo.path != null
     val photoSize = CardRenderer.get(LocalContext.current).photoBitmap(draft.photo)?.let { it.width to it.height }
 

@@ -29,7 +29,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_app_id" />
+            android:value="${admobAppId}" />
 
         <!-- Delay ad SDK work until consent is gathered and MobileAds.initialize() is called. -->
         <meta-data
