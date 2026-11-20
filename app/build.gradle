@@ -1,62 +1,103 @@
-apply plugin: 'com.android.application'
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+}
+
+// Release signing is read from keystore.properties (git-ignored) when present:
+//   storeFile=/path/to/release.jks
+//   storePassword=...
+//   keyAlias=...
+//   keyPassword=...
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
-    compileSdk 36
     namespace 'com.ereader.ripcardmaker'
-
-    buildFeatures {
-        buildConfig = true
-    }
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.ereader.ripcardmaker"
-        minSdk 21
+        minSdk 24
         targetSdk 36
-        versionCode 12
-        versionName "1.0.12"
+        versionCode 13
+        versionName "2.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
-    }
-    
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            release {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
 
     buildTypes {
         release {
-            debuggable false
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-
-        debug {
-            debuggable true
-            minifyEnabled false
-            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
+    }
 
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    buildFeatures {
+        compose true
+        buildConfig true
+    }
+
+    packaging {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
 }
 
 dependencies {
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.core.splashscreen
+    implementation libs.androidx.exifinterface
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.lifecycle.runtime.compose
+    implementation libs.androidx.lifecycle.viewmodel.compose
+    implementation libs.androidx.navigation.compose
+    implementation libs.androidx.datastore.preferences
 
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'com.github.siyamed:android-shape-imageview:0.9.3'
-    implementation 'com.intuit.sdp:sdp-android:1.1.1'
-    implementation files('libs/colorpicker.aar')
-    implementation files('libs/MaskedEditText.aar')
+    implementation platform(libs.compose.bom)
+    implementation libs.compose.ui
+    implementation libs.compose.ui.graphics
+    implementation libs.compose.ui.tooling.preview
+    implementation libs.compose.material3
+    implementation libs.compose.material.icons
+    debugImplementation libs.compose.ui.tooling
 
-    implementation 'androidx.activity:activity:1.9.3'
-    implementation 'androidx.core:core:1.15.0'
+    implementation libs.kotlinx.serialization.json
+    implementation libs.coil.compose
 
-    // Google Mobile Ads (AdMob)
-    implementation 'com.google.android.gms:play-services-ads:23.3.0'
+    implementation libs.play.services.ads
+    implementation libs.ump
+
+    coreLibraryDesugaring libs.desugar.jdk.libs
+
+    testImplementation libs.junit
 }

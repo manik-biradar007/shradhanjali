@@ -1,0 +1,13 @@
+<resources>
+    <style name="Theme.Shradhanjali" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/night</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Shradhanjali.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/night</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.Shradhanjali</item>
+    </style>
+</resources>
